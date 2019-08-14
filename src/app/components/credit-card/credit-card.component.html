@@ -1,0 +1,45 @@
+<div class="card">
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Name On Card"
+      required
+      name="name"
+      [(ngModel)]="card.name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <div class="logo" [ngClass]="logoClass"></div>
+    <input
+      #cardNumberEl
+      matInput
+      placeholder="Card Number"
+      required
+      name="cardNumber"
+      (change)="cardNumberChange($event)"
+      [(ngModel)]="cardNumber">
+  </mat-form-field>
+
+  <div class="expiry">
+
+    <mat-form-field>
+      <mat-select [(ngModel)]="card.month" placeholder="Expiry Month" name="month">
+        <mat-option [value]="month.value" *ngFor="let month of months">{{month.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select [(ngModel)]="card.year" placeholder="Expiry Year" name="year">
+        <mat-option [value]="year.value" *ngFor="let year of years">{{year.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+
+  <fs-address
+  [(address)]="address"
+  [config]="config"
+  (addressChange)="searchChanged($event)">
+</fs-address>
+</div>
+
