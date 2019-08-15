@@ -52,7 +52,7 @@ export class FsCreditCardComponent implements OnInit {
     });
   }
 
-  private _changed() {
+  public _changed() {
     const picked = ['street', 'city', 'zip', 'country', 'region'];
     const address = pick(this.address, picked);
     this.changed.emit({ address: address, creditCard: this.creditCard});

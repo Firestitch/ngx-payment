@@ -27,7 +27,7 @@
 
     <mat-form-field>
       <mat-select
-        [(ngModel)]="creditCard.month"
+        [(ngModel)]="creditCard.expiry_month"
         placeholder="Expiry Month"
         name="month"
         (selectionChange)="_changed()">
@@ -37,7 +37,7 @@
 
     <mat-form-field>
       <mat-select
-        [(ngModel)]="creditCard.year"
+        [(ngModel)]="creditCard.expiry_year"
         placeholder="Expiry Year"
         name="year"
         (selectionChange)="_changed()">

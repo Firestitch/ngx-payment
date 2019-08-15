@@ -73,7 +73,7 @@
   },
   "peerDependencies": {
     "imask": ">=5.1.7",
-    "@firestitch/address": ">=7.2.3",
+    "@firestitch/address": ">=7.2.6",
     "@firestitch/label": ">=7.1.2"
   }
 }
