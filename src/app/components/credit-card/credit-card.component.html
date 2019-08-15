@@ -5,41 +5,51 @@
       placeholder="Name On Card"
       required
       name="name"
-      [(ngModel)]="card.name">
+      (keyup)="_changed()"
+      [(ngModel)]="creditCard.name">
   </mat-form-field>
 
   <mat-form-field>
-    <div class="logo" [ngClass]="logoClass"></div>
+    <img
+      *ngIf="creditCard.type"
+      class="logo"
+      [src]="'/assets/@firestitch/payment/cards/' + creditCard.type + '.svg'">
     <input
       #cardNumberEl
       matInput
       placeholder="Card Number"
       required
       name="cardNumber"
-      (change)="cardNumberChange($event)"
       [(ngModel)]="cardNumber">
   </mat-form-field>
 
   <div class="expiry">
 
     <mat-form-field>
-      <mat-select [(ngModel)]="card.month" placeholder="Expiry Month" name="month">
+      <mat-select
+        [(ngModel)]="creditCard.month"
+        placeholder="Expiry Month"
+        name="month"
+        (selectionChange)="_changed()">
         <mat-option [value]="month.value" *ngFor="let month of months">{{month.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select [(ngModel)]="card.year" placeholder="Expiry Year" name="year">
+      <mat-select
+        [(ngModel)]="creditCard.year"
+        placeholder="Expiry Year"
+        name="year"
+        (selectionChange)="_changed()">
         <mat-option [value]="year.value" *ngFor="let year of years">{{year.name}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-
   <fs-address
-  [(address)]="address"
-  [config]="config"
-  (addressChange)="searchChanged($event)">
-</fs-address>
+    [(address)]="address"
+    [config]="config"
+    (addressChange)="_changed($event)">
+  </fs-address>
 </div>
 

@@ -5,6 +5,9 @@ import { FsCreditCardComponent } from './components/credit-card/credit-card.comp
 import { MatFormFieldModule, MatSelectModule, MatInputModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { FsAddressModule } from '@firestitch/address';
+import { FsBankAccountComponent } from './components/bank-account/bank-account.component';
+import { FsFormModule } from '@firestitch/form';
+import { FsLabelModule } from '@firestitch/label';
 
 @NgModule({
   imports: [
@@ -13,15 +16,17 @@ import { FsAddressModule } from '@firestitch/address';
     MatInputModule,
     MatSelectModule,
     FormsModule,
-    FsAddressModule
+    FsAddressModule,
+    FsFormModule,
+    FsLabelModule
   ],
   exports: [
     FsCreditCardComponent,
-  ],
-  entryComponents: [
+    FsBankAccountComponent
   ],
   declarations: [
     FsCreditCardComponent,
+    FsBankAccountComponent
   ]
 })
 export class FsPaymentModule {

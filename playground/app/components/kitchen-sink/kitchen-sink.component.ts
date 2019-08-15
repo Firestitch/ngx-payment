@@ -16,4 +16,8 @@ export class KitchenSinkComponent {
               private message: FsMessage) {
     exampleComponent.setConfigureComponent(KitchenSinkConfigureComponent, { config: this.config });
   }
+
+  public changed(event) {
+    console.log(event);
+  }
 }

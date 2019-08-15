@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { CardType } from 'src/app/enums/card-type.enum';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { CreditCardType } from 'src/app/enums/credit-card-type.enum';
 import IMask from 'imask';
 import { IFsAddressConfig } from '@firestitch/address';
+import { pick } from 'lodash-es';
+import { Address } from '../../interfaces/address.interface';
+import { CreditCard } from 'src/app/interfaces/credit-card.interface';
 
 
 @Component({
@@ -13,29 +16,24 @@ export class FsCreditCardComponent implements OnInit {
 
   @ViewChild('cardNumberEl') cardNumberEl: ElementRef;
 
-  public card: any = {};
-  public logoClass = '';
+  @Input() address: Address = {};
+  @Input() creditCard: CreditCard = {};
+
+  @Output() changed: EventEmitter<{ address: Address, creditCard: CreditCard }> = new EventEmitter();
+
   public cardNumber = '';
   public months = [];
   public years = [];
-  public config: IFsAddressConfig = { map: false, search: false, name: { visible: false} };
+  public config: IFsAddressConfig = {
+    name: { visible: false}
+  };
 
   private _cardNumberImask;
 
-
-  public searchChanged() {
-
-  }
-
-  public cardNumberChange(value) {
-    this._calculateLogoClass(value);
-  }
-
   public ngOnInit() {
 
-
     for (let i = 0; i < 12; i++) {
-      this.months.push({ name: String(i + 1).padStart(2, '0'), value: i });
+      this.months.push({ name: String(i + 1).padStart(2, '0'), value: i +  1 });
     }
 
     const year = new Date().getFullYear();
@@ -43,46 +41,57 @@ export class FsCreditCardComponent implements OnInit {
       this.years.push({ name: i, value: i });
     }
 
-
     const maskOptions = {
       mask: '000000000000000000000000000000'
     };
     this._cardNumberImask = IMask(this.cardNumberEl.nativeElement, maskOptions);
     this._cardNumberImask.on('accept', () => {
-      this._calculateLogoClass(this._cardNumberImask.unmaskedValue);
-      this.card.number = this._cardNumberImask.unmaskedValue;
+      this._calculateType(this._cardNumberImask.unmaskedValue);
+      this.creditCard.number = this._cardNumberImask.unmaskedValue;
+      this._changed();
     });
   }
 
-  private _calculateLogoClass(value) {
+  private _changed() {
+    const picked = ['street', 'city', 'zip', 'country', 'region'];
+    const address = pick(this.address, picked);
+    this.changed.emit({ address: address, creditCard: this.creditCard});
+  }
+
+  private _calculateType(value) {
 
     const num = String(value);
-    let logoClass = '';
 
     if (num.match(/^(34|37)/)) {
-      logoClass = CardType.Amex;
+      this.creditCard.type = CreditCardType.Amex;
 
     } else if (num.match(/^4/)) {
-      logoClass = CardType.Visa;
+      this.creditCard.type = CreditCardType.Visa;
 
     } else if (num.match(/^(51|52|53|54|55)/)) {
-      logoClass = CardType.Mastercard;
+      this.creditCard.type = CreditCardType.Mastercard;
+
+    } else if (num.match(/^(6011|65|64[4-9]|62212[6-9]|6221[3-9][0-9]|622[2-8][0-9]{2}|6229[01][0-9]|62292[0-5])/)) {
+      this.creditCard.type = CreditCardType.Discover;
+
+    } else if (num.match(/^(352[89]|35[3-8][0-9])/)) {
+      this.creditCard.type = CreditCardType.JBC;
 
     } else {
-      logoClass = '';
+      this.creditCard.type = null;
     }
 
-    this.logoClass = logoClass;
-
-    if (this.logoClass === CardType.Amex) {
+    if (this.creditCard.type === CreditCardType.Amex) {
       this._cardNumberImask.updateOptions( { mask: '0000 000000 00000' });
-    } else if (this.logoClass === CardType.Visa || this.logoClass === CardType.Mastercard) {
+    } else if ( this.creditCard.type === CreditCardType.Visa ||
+                this.creditCard.type === CreditCardType.Mastercard ||
+                this.creditCard.type === CreditCardType.Discover ||
+                this.creditCard.type === CreditCardType.JBC) {
       this._cardNumberImask.updateOptions( { mask: '0000 0000 0000 0000' });
     } else {
       this._cardNumberImask.updateOptions( { mask: '000000000000000000000000000000' });
     }
 
     this._cardNumberImask.updateValue();
-
   }
 }
