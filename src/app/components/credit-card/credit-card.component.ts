@@ -1,17 +1,20 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { CardType } from 'src/app/enums/card-type.enum';
 import IMask from 'imask';
+
 import { IFsAddressConfig } from '@firestitch/address';
+
+import { CardType } from 'src/app/enums/card-type.enum';
 
 
 @Component({
   selector: 'fs-credit-card',
-  templateUrl: 'credit-card.component.html',
-  styleUrls: [ 'credit-card.component.scss' ],
+  templateUrl: './credit-card.component.html',
+  styleUrls: [ './credit-card.component.scss' ],
 })
 export class FsCreditCardComponent implements OnInit {
 
-  @ViewChild('cardNumberEl') cardNumberEl: ElementRef;
+  @ViewChild('cardNumberEl')
+  public cardNumberEl: ElementRef = null;
 
   public card: any = {};
   public logoClass = '';
@@ -19,13 +22,12 @@ export class FsCreditCardComponent implements OnInit {
   public months = [];
   public years = [];
   public config: IFsAddressConfig = { map: false, search: false, name: { visible: false} };
+  public address = {};
 
   private _cardNumberImask;
 
 
-  public searchChanged() {
-
-  }
+  public searchChanged($event) { }
 
   public cardNumberChange(value) {
     this._calculateLogoClass(value);
@@ -33,16 +35,15 @@ export class FsCreditCardComponent implements OnInit {
 
   public ngOnInit() {
 
-
     for (let i = 0; i < 12; i++) {
-      this.months.push({ name: String(i + 1).padStart(2, '0'), value: i });
+      // padStart is defined in the ES2017 standard. Compiler throw an error
+      this.months.push({ name: String(i + 1)['padStart'](2, '0'), value: i });
     }
 
     const year = new Date().getFullYear();
     for (let i = year; i < (year + 10); i++) {
       this.years.push({ name: i, value: i });
     }
-
 
     const maskOptions = {
       mask: '000000000000000000000000000000'
@@ -85,4 +86,5 @@ export class FsCreditCardComponent implements OnInit {
     this._cardNumberImask.updateValue();
 
   }
+
 }
