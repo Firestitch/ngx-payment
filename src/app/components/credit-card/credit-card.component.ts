@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter }
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import IMask from 'imask';
-import { pick } from 'lodash-es';
+import { pick, padStart } from 'lodash-es';
 
 import { IFsAddressConfig } from '@firestitch/address';
 
@@ -39,9 +39,7 @@ export class FsCreditCardComponent implements OnInit {
   public ngOnInit() {
 
     for (let i = 0; i < 12; i++) {
-      // padStart is defined in the ES2017 standard. Call it as square brackets
-      // because otherwise compiler throw an error
-      this.months.push({ name: String(i + 1)['padStart'](2, '0'), value: i +  1 });
+      this.months.push({ name: padStart(String(i + 1), 2, '0'), value: i +  1 });
     }
 
     const year = new Date().getFullYear();
