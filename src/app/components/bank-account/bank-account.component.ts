@@ -1,22 +1,24 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import IMask from 'imask';
-import { IFsAddressConfig } from '@firestitch/address';
-import { BankAccount } from '../../interfaces/bank-account.interface';
 import { ControlContainer, NgForm } from '@angular/forms';
+
+import IMask from 'imask';
+
+import { IFsAddressConfig } from '@firestitch/address';
+
+import { BankAccount } from '../../interfaces/bank-account.interface';
 
 
 @Component({
   selector: 'fs-bank-account',
-  templateUrl: 'bank-account.component.html',
-  styleUrls: [ 'bank-account.component.scss' ],
+  templateUrl: './bank-account.component.html',
+  styleUrls: [ './bank-account.component.scss' ],
   viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
-
 })
 export class FsBankAccountComponent implements OnInit {
 
-  @ViewChild('branchEl') branchEl: ElementRef;
-  @ViewChild('institutionEl') institutionEl: ElementRef;
-  @ViewChild('accountEl') accountEl: ElementRef;
+  @ViewChild('branchEl') public branchEl: ElementRef = null;
+  @ViewChild('institutionEl') public institutionEl: ElementRef = null;
+  @ViewChild('accountEl') public accountEl: ElementRef = null;
 
   @Input('bankAccount') set bankAccount(value: BankAccount) {
     this._bankAccount = value;
@@ -73,7 +75,6 @@ export class FsBankAccountComponent implements OnInit {
       });
     });
   }
-
 
   public validateInstitution = (model) => {
 

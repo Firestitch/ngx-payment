@@ -1,5 +1,5 @@
 export interface BankAccount {
-  branch?: number,
-  institution?: number
-  account?: number
+  branch?: number;
+  institution?: number;
+  account?: number;
 }

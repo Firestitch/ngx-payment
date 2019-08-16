@@ -1,20 +1,26 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { CreditCardType } from 'src/app/enums/credit-card-type.enum';
+import { ControlContainer, NgForm } from '@angular/forms';
+
 import IMask from 'imask';
-import { IFsAddressConfig } from '@firestitch/address';
 import { pick } from 'lodash-es';
+
+import { IFsAddressConfig } from '@firestitch/address';
+
+import { CreditCardType } from '../../enums/credit-card-type.enum';
 import { Address } from '../../interfaces/address.interface';
-import { CreditCard } from 'src/app/interfaces/credit-card.interface';
+import { CreditCard } from '../../interfaces/credit-card.interface';
 
 
 @Component({
   selector: 'fs-credit-card',
-  templateUrl: 'credit-card.component.html',
-  styleUrls: [ 'credit-card.component.scss' ],
+  templateUrl: './credit-card.component.html',
+  styleUrls: [ './credit-card.component.scss' ],
+  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class FsCreditCardComponent implements OnInit {
 
-  @ViewChild('cardNumberEl') cardNumberEl: ElementRef;
+  @ViewChild('cardNumberEl')
+  public cardNumberEl: ElementRef = null;
 
   @Input() address: Address = {};
   @Input() creditCard: CreditCard = {};

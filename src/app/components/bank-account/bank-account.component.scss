@@ -16,6 +16,7 @@
 }
 
 .branch-number {
+  color: #68214B;
   ::ng-deep {
     .mat-form-field-infix, .mat-form-field-label {
       color: #68214B;
@@ -24,6 +25,7 @@
 }
 
 .institution-number {
+  color: #5E6F76;
   ::ng-deep {
     .mat-form-field-infix, .mat-form-field-label {
       color: #5E6F76;
@@ -32,6 +34,7 @@
 }
 
 .account-number {
+  color: #746B30;
   ::ng-deep {
     .mat-form-field-infix, .mat-form-field-label {
       color: #746B30;
