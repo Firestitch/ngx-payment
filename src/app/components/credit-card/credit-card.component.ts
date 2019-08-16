@@ -33,7 +33,9 @@ export class FsCreditCardComponent implements OnInit {
   public ngOnInit() {
 
     for (let i = 0; i < 12; i++) {
-      this.months.push({ name: String(i + 1).padStart(2, '0'), value: i +  1 });
+      // padStart is defined in the ES2017 standard. Call it as square brackets
+      // because otherwise compiler throw an error
+      this.months.push({ name: String(i + 1)['padStart'](2, '0'), value: i +  1 });
     }
 
     const year = new Date().getFullYear();
