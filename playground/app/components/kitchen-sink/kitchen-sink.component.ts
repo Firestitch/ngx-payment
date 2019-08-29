@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { KitchenSinkConfigureComponent } from '../kitchen-sink-configure';
 import { FsExampleComponent } from '@firestitch/example';
 import { FsMessage } from '@firestitch/message';
+import { Country } from '@firestitch/address';
+import { Address } from 'package/app/interfaces/address.interface';
 
 @Component({
   selector: 'kitchen-sink',
@@ -11,6 +13,7 @@ import { FsMessage } from '@firestitch/message';
 export class KitchenSinkComponent {
 
   public config = {};
+  public address: Address = { country: Country.Canada };
 
   constructor(private exampleComponent: FsExampleComponent,
               private message: FsMessage) {
