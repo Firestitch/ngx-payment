@@ -1,4 +1,5 @@
 
-<form>
+<form (fsForm)="save()">
   <fs-credit-card (changed)="changed($event)"></fs-credit-card>
+  <button mat-raise-button color="primary">Submit</button>
 </form>

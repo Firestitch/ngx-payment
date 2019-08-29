@@ -31,7 +31,12 @@ export class FsCreditCardComponent implements OnInit {
   public months = [];
   public years = [];
   public config: IFsAddressConfig = {
-    name: { visible: false}
+    name: { visible: false },
+    street: { required: true },
+    city: { required: true },
+    region: { required: true },
+    zip: { required: true },
+    country: { required: true }
   };
 
   private _cardNumberImask;

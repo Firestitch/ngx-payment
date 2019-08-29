@@ -20,4 +20,8 @@ export class KitchenSinkComponent {
   public changed(event) {
     console.log(event);
   }
+
+  public save() {
+    this.message.success('Submitted');
+  }
 }

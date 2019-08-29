@@ -1,9 +1,7 @@
 .card {
   display: flex;
   flex-direction: column;
-
 }
-
 
 .logo {
   position: absolute;
@@ -24,7 +22,7 @@
     }
 
     &:last-child {
-      margin-left: 10px;
+      margin-left: 5px;
     }
   }
 }
