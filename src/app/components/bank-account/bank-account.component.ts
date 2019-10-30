@@ -99,7 +99,7 @@ export class FsBankAccountComponent implements OnInit {
       setTimeout(() => {
         const length = String(this._bankAccount.account).length;
 
-        if (length < 7 || length > 12) {
+        if (length < 6 || length > 12) {
           return reject('Invalid account number');
         }
 
