@@ -30,6 +30,8 @@ export class FsCreditCardComponent implements OnInit {
   public cardNumber = '';
   public months = [];
   public years = [];
+
+  @Input('configAddress')
   public config: IFsAddressConfig = {
     name: { visible: false },
     street: { required: true },
