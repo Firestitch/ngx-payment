@@ -19,7 +19,7 @@ import { CreditCard } from '../../interfaces/credit-card.interface';
 })
 export class FsCreditCardComponent implements OnInit {
 
-  @ViewChild('cardNumberEl')
+  @ViewChild('cardNumberEl', { static: true })
   public cardNumberEl: ElementRef = null;
 
   @Input() address: Address = {};

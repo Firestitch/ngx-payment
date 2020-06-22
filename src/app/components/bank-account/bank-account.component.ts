@@ -16,9 +16,9 @@ import { BankAccount } from '../../interfaces/bank-account.interface';
 })
 export class FsBankAccountComponent implements OnInit {
 
-  @ViewChild('branchEl') public branchEl: ElementRef = null;
-  @ViewChild('institutionEl') public institutionEl: ElementRef = null;
-  @ViewChild('accountEl') public accountEl: ElementRef = null;
+  @ViewChild('branchEl', { static: true }) public branchEl: ElementRef = null;
+  @ViewChild('institutionEl', { static: true }) public institutionEl: ElementRef = null;
+  @ViewChild('accountEl', { static: true }) public accountEl: ElementRef = null;
 
   @Input('bankAccount') set bankAccount(value: BankAccount) {
     this._bankAccount = value;
