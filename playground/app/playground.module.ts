@@ -19,6 +19,7 @@ import {
 import { AppComponent } from './app.component';
 import { KitchenSinkConfigureComponent } from './components/kitchen-sink-configure';
 import { BankAccountComponent } from './components/bank-account/bank-account.component';
+import { PaymentMethodDisplayComponent } from './components/payment-method-display/payment-method-display.component';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -47,7 +48,8 @@ const routes: Routes = [
     ExamplesComponent,
     KitchenSinkComponent,
     KitchenSinkConfigureComponent,
-    BankAccountComponent
+    BankAccountComponent,
+    PaymentMethodDisplayComponent,
   ],
 })
 export class PlaygroundModule {

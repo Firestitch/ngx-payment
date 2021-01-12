@@ -1,0 +1,5 @@
+<ng-container *ngIf="cardImages[type]">
+  <img [src]="cardImages[type]" [alt]="type" class="fs-payment-card-image">&nbsp;
+</ng-container>
+<span class="fs-payment-card-number">{{ formattedNumber }}</span>&nbsp;•&nbsp;
+<span class="fs-payment-expiry-date">{{ formattedExpiryDate }}</span>

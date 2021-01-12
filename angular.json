@@ -21,7 +21,7 @@
             "assets": [
               "playground/favicon.ico",
               "playground/assets",
-              { "glob": "**/*", "input": "./src/app/assets", "output": "./assets/@firestitch/payment" }
+              { "glob": "**/*", "input": "./src/app/assets", "output": "./assets/payment" }
             ],
             "styles": [
               "playground/styles.scss"
