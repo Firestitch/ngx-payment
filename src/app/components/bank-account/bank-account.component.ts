@@ -1,4 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import IMask from 'imask';
@@ -14,24 +24,55 @@ import { BankAccount } from '../../interfaces/bank-account.interface';
   styleUrls: [ './bank-account.component.scss' ],
   viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
-export class FsBankAccountComponent implements OnInit {
+export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 
-  @ViewChild('branchEl', { static: true }) public branchEl: ElementRef = null;
-  @ViewChild('institutionEl', { static: true }) public institutionEl: ElementRef = null;
-  @ViewChild('accountEl', { static: true }) public accountEl: ElementRef = null;
-
-  @Input('bankAccount') set bankAccount(value: BankAccount) {
+  @Input()
+  public set bankAccount(value: BankAccount) {
     this._bankAccount = value;
   }
 
+  @Input()
+  public currency: 'USD' | 'CDN' = 'CDN';
+
+  @Input()
+  public showAccountType = true;
+
+  @Input()
+  public excludeCountries: string[];
+
+  @Input()
+  public readonly = false;
+
+  @Input()
+  public accountTypes = [
+    { name: 'Checking', value: 'CHECKING' },
+    { name: 'Savings', value: 'SAVINGS' },
+    { name: 'Loan', value: 'LOAN' },
+  ]
+
+  @Input()
+  public configAddress: IFsAddressConfig = {
+    name: { visible: false },
+    street: { required: true },
+    city: { required: true },
+    zip: { required: true },
+    region: { required: true },
+    country: { required: true }
+  };
+
   @Output() changed: EventEmitter<BankAccount> = new EventEmitter();
 
+  @ViewChild('branchEl', { static: false })
+  public branchEl: ElementRef = null;
+
+  @ViewChild('institutionEl', { static: false })
+  public institutionEl: ElementRef = null;
+
+  @ViewChild('accountEl', { static: false })
+  public accountEl: ElementRef = null;
+
   public _bankAccount: BankAccount = {};
-  public months = [];
   public years = [];
-  public config: IFsAddressConfig = {
-    name: { visible: false}
-  };
 
   public institutionNumberErrorMessage = 'Invalid institution number';
 
@@ -39,35 +80,37 @@ export class FsBankAccountComponent implements OnInit {
   private _institutionImask;
   private _accountImask;
 
-  public ngOnInit() {
+  public ngAfterViewInit(): void {
+    this._setMaskForBranchField();
+    this._setMaskForInstitutionField();
+    this._setMaskForAccountField();
+  }
 
-    this._branchImask = IMask(this.branchEl.nativeElement, { mask: '00000' });
-    this._branchImask.on('accept', () => {
-      this._bankAccount.branch = this._branchImask.unmaskedValue;
-      this._changed();
-    });
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.currency && changes.currency.previousValue !== changes.currency.currentValue) {
+      this._setMaskForBranchField();
+      this._setMaskForInstitutionField();
+      this._setMaskForAccountField();
+    }
 
-    this._institutionImask = IMask(this.institutionEl.nativeElement, { mask: '000' });
-    this._institutionImask.on('accept', () => {
-      this._bankAccount.institution = this._institutionImask.unmaskedValue;
-      this._changed();
-    });
-
-    this._accountImask = IMask(this.accountEl.nativeElement, { mask: '000000000000' });
-    this._accountImask.on('accept', () => {
-      this._bankAccount.account = this._accountImask.unmaskedValue;
-      this._changed();
-    });
+    if (changes.readonly) {
+      Object.keys(this.configAddress)
+        .forEach((key) => {
+          this.configAddress[key].disabled = this.readonly;
+        });
+    }
   }
 
   public validateBranch = (model) => {
 
     return new Promise((resolve, reject) => {
-
       setTimeout(() => {
+        const targetLength = this.currency === 'USD'
+          ? 5
+          : 9;
         const length = String(this._bankAccount.branch).length;
 
-        if (length !== 5) {
+        if (length !== targetLength) {
           return reject('Invalid branch number');
         }
 
@@ -99,7 +142,7 @@ export class FsBankAccountComponent implements OnInit {
       setTimeout(() => {
         const length = String(this._bankAccount.account).length;
 
-        if (length < 6 || length > 12) {
+        if (length < 7 || length > 12) {
           return reject('Invalid account number');
         }
 
@@ -108,7 +151,54 @@ export class FsBankAccountComponent implements OnInit {
     });
   }
 
-  private _changed() {
+  public valueChanged() {
     this.changed.emit(this._bankAccount);
+  }
+
+  private _setMaskForBranchField(): void {
+    this._destroyMask(this._branchImask);
+
+    if (this.branchEl) {
+      const mask = this.currency === 'USD'
+        ? '000000000'
+        : '00000';
+
+      this._branchImask = IMask(this.branchEl.nativeElement, { mask: mask });
+      this._branchImask.on('accept', () => {
+        this._bankAccount.branch = this._branchImask.unmaskedValue;
+
+        this.valueChanged();
+      });
+    }
+  }
+
+  private _setMaskForInstitutionField(): void {
+    this._destroyMask(this._institutionImask);
+
+    if (this.institutionEl) {
+      this._institutionImask = IMask(this.institutionEl.nativeElement, { mask: '000' });
+      this._institutionImask.on('accept', () => {
+        this._bankAccount.institution = this._institutionImask.unmaskedValue;
+        this.valueChanged();
+      });
+    }
+  }
+
+  private _setMaskForAccountField(): void {
+    this._destroyMask(this._accountImask);
+
+    if (this.accountEl) {
+      this._accountImask = IMask(this.accountEl.nativeElement, { mask: '000000000000' });
+      this._accountImask.on('accept', () => {
+        this._bankAccount.account = this._accountImask.unmaskedValue;
+        this.valueChanged();
+      });
+    }
+  }
+
+  private _destroyMask(target: IMask.InputMask<IMask.AnyMaskedOptions>) {
+    if (target) {
+      target.destroy();
+    }
   }
 }

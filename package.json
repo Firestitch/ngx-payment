@@ -42,8 +42,9 @@
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
     "@compodoc/compodoc": "^1.1.9",
-    "@firestitch/address": "^7.2.9",
+    "@firestitch/address": "^8.3.12",
     "@firestitch/common": "^7.0.2",
+    "@firestitch/dialog": "^8.2.6",
     "@firestitch/drawer": "^8.1.0",
     "@firestitch/example": "^7.0.6",
     "@firestitch/form": "^7.5.10",
@@ -72,5 +73,6 @@
     "imask": ">=5.1.7",
     "@firestitch/address": ">=7.2.9",
     "@firestitch/label": ">=7.1.2"
-  }
+  },
+  "dependencies": {}
 }

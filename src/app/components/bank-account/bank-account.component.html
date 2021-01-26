@@ -1,47 +1,101 @@
 <div class="column">
   <fs-label>
     How to find your&nbsp;
-    <span class="branch-number">Branch</span>,&nbsp;
-    <span class="institution-number">Institution</span>&nbsp;&&nbsp;
+    <span class="branch-number">Branch</span><ng-container *ngIf="currency === 'CDN'">,&nbsp;
+    <span class="institution-number">Institution</span></ng-container>&nbsp;&&nbsp;
     <span class="account-number">Account</span>&nbsp;
     numbers on a Cheque
   </fs-label>
 
   <div class="cheque">
-    <img src="/assets/payment/canadian-cheque.svg" />
+    <ng-container [ngSwitch]="currency">
+      <ng-container *ngSwitchCase="'CDN'">
+        <img src="/assets/payment/canadian-cheque.svg">
+      </ng-container>
+      <ng-container *ngSwitchCase="'USD'">
+        <img src="/assets/payment/us-cheque.png">
+      </ng-container>
+    </ng-container>
   </div>
 
-  <mat-form-field class="branch-number">
-    <input
-      #branchEl
-      matInput
-      placeholder="Branch # (5 Digits)"
-      [ngModel]="_bankAccount.branch"
-      [fsFormFunction]="validateBranch"
-      name="branch"
-      required>
-      <mat-hint>Also known as "Transit Number"</mat-hint>
-  </mat-form-field>
+  <ng-container [ngSwitch]="currency">
+    <ng-container *ngSwitchCase="'CDN'">
+      <mat-form-field class="branch-number">
+        <input
+          #branchEl
+          matInput
+          placeholder="Branch # (5-Digits)"
+          [ngModel]="_bankAccount.branch"
+          [fsFormFunction]="validateBranch"
+          [disabled]="readonly"
+          name="branch"
+          required>
+        <mat-hint>Also known as "Transit Number"</mat-hint>
+      </mat-form-field>
 
-  <mat-form-field class="institution-number">
-    <input
-      #institutionEl
-      matInput
-      placeholder="Institution # (3 Digits)"
-      [ngModel]="_bankAccount.institution"
-      [fsFormFunction]="validateInstitution"
-      name="institution"
-      required>
-  </mat-form-field>
+      <mat-form-field class="institution-number">
+        <input
+          #institutionEl
+          matInput
+          placeholder="Institution # (3-Digits)"
+          [ngModel]="_bankAccount.institution"
+          [fsFormFunction]="validateInstitution"
+          [disabled]="readonly"
+          name="institution"
+          required>
+      </mat-form-field>
+
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'USD'">
+      <mat-form-field class="branch-number">
+        <input
+          #branchEl
+          matInput
+          placeholder="Routing # (9-Digits)"
+          [ngModel]="_bankAccount.branch"
+          [fsFormFunction]="validateBranch"
+          [disabled]="readonly"
+          name="branch"
+          required>
+      </mat-form-field>
+    </ng-container>
+  </ng-container>
 
   <mat-form-field class="account-number">
     <input
       #accountEl
       matInput
-      placeholder="Account # (6-12 Digits)"
+      placeholder="Account # (7-12 Digits)"
       [ngModel]="_bankAccount.account"
       [fsFormFunction]="validateAccount"
+      [disabled]="readonly"
       name="account"
       required>
   </mat-form-field>
+
+  <mat-form-field *ngIf="showAccountType && accountTypes?.length">
+    <mat-label>Account Type</mat-label>
+    <mat-select [(ngModel)]="_bankAccount.accountType"
+                [disabled]="readonly"
+                (ngModelChange)="valueChanged()"
+                name="account-type"
+                required>
+      <mat-option *ngFor="let type of accountTypes" [value]="type.value">
+        {{ type.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container>
+    <fs-address
+      [(address)]="_bankAccount.address"
+      [config]="configAddress"
+      [excludeCountries]="excludeCountries"
+      (addressChange)="valueChanged()">
+    </fs-address>
+    <small class="address-info">
+      This address should match your home address as per your bank account statement
+    </small>
+  </ng-container>
 </div>

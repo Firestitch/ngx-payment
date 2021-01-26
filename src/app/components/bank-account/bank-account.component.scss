@@ -1,7 +1,7 @@
-
 .column {
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
 }
 
 .cheque {
@@ -44,4 +44,8 @@ fs-label {
       color: #746B30;
     }
   }
+}
+
+.address-info {
+  color: #757575;
 }

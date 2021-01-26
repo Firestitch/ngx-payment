@@ -1,0 +1,4 @@
+<form (fsForm)="save()">
+  <fs-bank-account [currency]="'USD'" (changed)="changed($event)"></fs-bank-account>
+  <button mat-raised-button color="primary">Save</button>
+</form>

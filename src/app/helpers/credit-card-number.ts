@@ -1,5 +1,4 @@
 export function creditCardNumber(cardNumber: string | number, showAsterisk = true): string {
-  debugger;
   cardNumber = cardNumber.toString();
 
   if (cardNumber.length < 4) {

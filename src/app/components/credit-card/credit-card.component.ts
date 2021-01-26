@@ -1,4 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges, SimpleChanges
+} from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import IMask from 'imask';
@@ -17,7 +26,7 @@ import { CreditCard } from '../../interfaces/credit-card.interface';
   styleUrls: [ './credit-card.component.scss' ],
   viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
-export class FsCreditCardComponent implements OnInit {
+export class FsCreditCardComponent implements OnInit, OnChanges {
 
   @ViewChild('cardNumberEl', { static: true })
   public cardNumberEl: ElementRef = null;
@@ -25,14 +34,20 @@ export class FsCreditCardComponent implements OnInit {
   @Input() address: Address = {};
   @Input() creditCard: CreditCard = {};
 
+  @Input()
+  public excludeCountries: string[];
+
+  @Input()
+  public readonly = false;
+
   @Output() changed: EventEmitter<{ address: Address, creditCard: CreditCard }> = new EventEmitter();
 
   public cardNumber = '';
   public months = [];
   public years = [];
 
-  @Input('configAddress')
-  public config: IFsAddressConfig = {
+  @Input()
+  public configAddress: IFsAddressConfig = {
     name: { visible: false },
     street: { required: true },
     city: { required: true },
@@ -65,11 +80,36 @@ export class FsCreditCardComponent implements OnInit {
     });
   }
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.readonly) {
+      Object.keys(this.configAddress)
+        .forEach((key) => {
+          this.configAddress[key].disabled = this.readonly;
+        });
+    }
+  }
+
   public _changed() {
     const picked = ['street', 'city', 'zip', 'country', 'region'];
     const address = pick(this.address, picked);
     this.changed.emit({ address: address, creditCard: this.creditCard});
   }
+
+  public validateCVV = (model) => {
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const length = String(this.creditCard.cvv).length;
+
+        if (length !== 3) {
+          return reject('Invalid CVV number');
+        }
+
+        resolve();
+      });
+    });
+  }
+
 
   private _calculateType(value) {
 
