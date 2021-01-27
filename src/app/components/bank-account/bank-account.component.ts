@@ -105,7 +105,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const targetLength = this.currency === 'USD'
+        const targetLength = this.currency === 'CAD'
           ? 5
           : 9;
         const length = String(this._bankAccount.branch).length;
