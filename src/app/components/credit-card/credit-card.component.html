@@ -7,21 +7,23 @@
       name="name"
       (keyup)="_changed()"
       [(ngModel)]="creditCard.name"
-      [readonly]="readonly">
+      [readonly]="readonly"
+      [disabled]="readonly">
   </mat-form-field>
 
   <mat-form-field>
     <img
       *ngIf="creditCard.type"
       class="logo"
-      [src]="'/assets/payment/cards/' + creditCard.type + '.svg'">
+      [src]="'/assets/payment/cards/' + creditCard.type + '.svg'" [alt]="creditCard.type">
     <input
       #cardNumberEl
       matInput
       placeholder="Card Number"
       required
       name="cardNumber"
-      [(ngModel)]="cardNumber">
+      [(ngModel)]="cardNumber"
+      [disabled]="readonly">
   </mat-form-field>
 
   <div class="expiry">
@@ -32,6 +34,7 @@
         placeholder="Expiry Month"
         name="month"
         [required]="true"
+        [disabled]="readonly"
         (selectionChange)="_changed()">
         <mat-option [value]="month.value" *ngFor="let month of months">{{month.name}}</mat-option>
       </mat-select>
@@ -43,12 +46,13 @@
         placeholder="Expiry Year"
         name="year"
         [required]="true"
+        [disabled]="readonly"
         (selectionChange)="_changed()">
         <mat-option [value]="year.value" *ngFor="let year of years">{{year.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="!readonly">
       <input
         matInput
         placeholder="CVC/CV2"
