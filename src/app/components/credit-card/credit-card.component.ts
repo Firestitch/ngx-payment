@@ -13,11 +13,10 @@ import { ControlContainer, NgForm } from '@angular/forms';
 import IMask from 'imask';
 import { pick, padStart } from 'lodash-es';
 
-import { IFsAddressConfig } from '@firestitch/address';
+import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 
 import { CreditCardType } from '../../enums/credit-card-type.enum';
-import { Address } from '../../interfaces/address.interface';
-import { CreditCard } from '../../interfaces/credit-card.interface';
+import { CreditCard, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
 
 
 @Component({
@@ -31,7 +30,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   @ViewChild('cardNumberEl', { static: true })
   public cardNumberEl: ElementRef = null;
 
-  @Input() address: Address = {};
+  @Input() address: FsAddress = {};
   @Input() creditCard: CreditCard = {};
 
   @Input()
@@ -40,7 +39,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   @Input()
   public readonly = false;
 
-  @Output() changed: EventEmitter<{ address: Address, creditCard: CreditCard }> = new EventEmitter();
+  @Output() changed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
 
   public cardNumber = '';
   public months = [];

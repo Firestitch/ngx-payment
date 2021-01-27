@@ -1,9 +1,9 @@
 import { FsAddress } from '@firestitch/address';
 
-export interface BankAccount {
-  branch?: number;
-  institution?: number;
-  account?: number;
+export interface PaymentMethodBankAccount {
+  branch?: string;
+  institution?: string;
+  account?: string;
   accountType?: 'CHECKING' | 'SAVINGS' | 'LOAN';
   address?: FsAddress;
 }

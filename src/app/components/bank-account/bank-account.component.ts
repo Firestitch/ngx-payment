@@ -15,7 +15,7 @@ import IMask from 'imask';
 
 import { IFsAddressConfig } from '@firestitch/address';
 
-import { BankAccount } from '../../interfaces/bank-account.interface';
+import { PaymentMethodBankAccount } from '../../interfaces/bank-account.interface';
 
 
 @Component({
@@ -27,7 +27,7 @@ import { BankAccount } from '../../interfaces/bank-account.interface';
 export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 
   @Input()
-  public set bankAccount(value: BankAccount) {
+  public set bankAccount(value: PaymentMethodBankAccount) {
     this._bankAccount = value;
   }
 
@@ -60,7 +60,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
     country: { required: true }
   };
 
-  @Output() changed: EventEmitter<BankAccount> = new EventEmitter();
+  @Output() changed: EventEmitter<PaymentMethodBankAccount> = new EventEmitter();
 
   @ViewChild('branchEl', { static: false })
   public branchEl: ElementRef = null;
@@ -71,7 +71,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
   @ViewChild('accountEl', { static: false })
   public accountEl: ElementRef = null;
 
-  public _bankAccount: BankAccount = {};
+  public _bankAccount: PaymentMethodBankAccount = {};
   public years = [];
 
   public institutionNumberErrorMessage = 'Invalid institution number';
