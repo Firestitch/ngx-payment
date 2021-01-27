@@ -1,26 +1,26 @@
 <div class="column">
-  <fs-label>
-    How to find your&nbsp;
-    <span class="branch-number">Branch</span><ng-container *ngIf="currency === 'CAD'">,&nbsp;
-    <span class="institution-number">Institution</span></ng-container>&nbsp;&&nbsp;
-    <span class="account-number">Account</span>&nbsp;
-    numbers on a Cheque
-  </fs-label>
-
   <div class="cheque">
-    <ng-container [ngSwitch]="currency">
-      <ng-container *ngSwitchCase="'CAD'">
+    <ng-container [ngSwitch]="countryCode">
+      <ng-container *ngSwitchCase="'CA'">
         <img src="/assets/payment/canadian-cheque.svg">
       </ng-container>
-      <ng-container *ngSwitchCase="'USD'">
+      <ng-container *ngSwitchDefault>
         <img src="/assets/payment/us-cheque.png">
       </ng-container>
     </ng-container>
   </div>
 
+  <fs-label>
+    How to find your&nbsp;
+    <span class="branch-number">Branch</span><ng-container *ngIf="countryCode === 'CA'">,&nbsp;
+    <span class="institution-number">Institution</span></ng-container>&nbsp;&&nbsp;
+    <span class="account-number">Account</span>&nbsp;
+    numbers on a Cheque
+  </fs-label>
+
   <ng-container *ngIf="!readonly">
-    <ng-container [ngSwitch]="currency">
-      <ng-container *ngSwitchCase="'CAD'">
+    <ng-container [ngSwitch]="countryCode">
+      <ng-container *ngSwitchCase="'CA'">
         <mat-form-field class="branch-number">
           <input
             #branchEl
@@ -46,7 +46,7 @@
 
       </ng-container>
 
-      <ng-container *ngSwitchCase="'USD'">
+      <ng-container *ngSwitchDefault>
         <mat-form-field class="branch-number">
           <input
             #branchEl

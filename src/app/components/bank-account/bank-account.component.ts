@@ -32,7 +32,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
   }
 
   @Input()
-  public currency: 'USD' | 'CAD' = 'CAD';
+  public countryCode = 'CA';
 
   @Input()
   public showAccountType = true;
@@ -105,7 +105,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const targetLength = this.currency === 'CAD'
+        const targetLength = this.countryCode === 'CA'
           ? 5
           : 9;
         const length = String(this._bankAccount.branch).length;
@@ -159,9 +159,9 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
     this._destroyMask(this._branchImask);
 
     if (this.branchEl) {
-      const mask = this.currency === 'USD'
-        ? '000000000'
-        : '00000';
+      const mask = this.countryCode === 'CA'
+        ? '00000'
+        : '000000000';
 
       this._branchImask = IMask(this.branchEl.nativeElement, { mask: mask });
       this._branchImask.on('accept', () => {
