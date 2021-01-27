@@ -18,47 +18,46 @@
     </ng-container>
   </div>
 
-  <ng-container [ngSwitch]="currency">
-    <ng-container *ngSwitchCase="'CAD'">
-      <mat-form-field class="branch-number">
-        <input
-          #branchEl
-          matInput
-          placeholder="Branch # (5-Digits)"
-          [ngModel]="_bankAccount.branch"
-          [fsFormFunction]="validateBranch"
-          [disabled]="readonly"
-          name="branch"
-          required>
-        <mat-hint>Also known as "Transit Number"</mat-hint>
-      </mat-form-field>
+  <ng-container *ngIf="!readonly">
+    <ng-container [ngSwitch]="currency">
+      <ng-container *ngSwitchCase="'CAD'">
+        <mat-form-field class="branch-number">
+          <input
+            #branchEl
+            matInput
+            placeholder="Branch # (5-Digits)"
+            [ngModel]="_bankAccount.branch"
+            [fsFormFunction]="validateBranch"
+            name="branch"
+            required>
+          <mat-hint>Also known as "Transit Number"</mat-hint>
+        </mat-form-field>
 
-      <mat-form-field class="institution-number">
-        <input
-          #institutionEl
-          matInput
-          placeholder="Institution # (3-Digits)"
-          [ngModel]="_bankAccount.institution"
-          [fsFormFunction]="validateInstitution"
-          [disabled]="readonly"
-          name="institution"
-          required>
-      </mat-form-field>
+        <mat-form-field class="institution-number">
+          <input
+            #institutionEl
+            matInput
+            placeholder="Institution # (3-Digits)"
+            [ngModel]="_bankAccount.institution"
+            [fsFormFunction]="validateInstitution"
+            name="institution"
+            required>
+        </mat-form-field>
 
-    </ng-container>
+      </ng-container>
 
-    <ng-container *ngSwitchCase="'USD'">
-      <mat-form-field class="branch-number">
-        <input
-          #branchEl
-          matInput
-          placeholder="Routing # (9-Digits)"
-          [ngModel]="_bankAccount.branch"
-          [fsFormFunction]="validateBranch"
-          [disabled]="readonly"
-          name="branch"
-          required>
-      </mat-form-field>
+      <ng-container *ngSwitchCase="'USD'">
+        <mat-form-field class="branch-number">
+          <input
+            #branchEl
+            matInput
+            placeholder="Routing # (9-Digits)"
+            [ngModel]="_bankAccount.branch"
+            [fsFormFunction]="validateBranch"
+            name="branch"
+            required>
+        </mat-form-field>
+      </ng-container>
     </ng-container>
   </ng-container>
 
