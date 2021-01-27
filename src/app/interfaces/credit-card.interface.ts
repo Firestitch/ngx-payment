@@ -10,9 +10,9 @@ export interface PaymentMethodCreditCard {
 
 export interface CreditCard {
   name?: string;
-  number?: number;
-  expiry_month?: string;
-  expiry_year?: string;
-  cvv?: number;
+  number?: string;
+  expiryMonth?: string;
+  expiryYear?: string;
+  cvv?: string;
   type?: string;
 }
