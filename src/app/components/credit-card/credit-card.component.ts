@@ -60,12 +60,12 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   public ngOnInit() {
 
     for (let i = 0; i < 12; i++) {
-      this.months.push({ name: padStart(String(i + 1), 2, '0'), value: i +  1 });
+      this.months.push({ name: padStart(String(i + 1), 2, '0'), value: (i +  1).toString() });
     }
 
     const year = new Date().getFullYear();
     for (let i = year; i < (year + 10); i++) {
-      this.years.push({ name: i, value: i });
+      this.years.push({ name: i, value: i.toString() });
     }
 
     const maskOptions = {
@@ -85,6 +85,10 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
         .forEach((key) => {
           this.configAddress[key].disabled = this.readonly;
         });
+    }
+
+    if (changes.creditCard) {
+      this.cardNumber = this.creditCard.number;
     }
   }
 
