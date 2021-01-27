@@ -1,7 +1,7 @@
 <div class="column">
   <fs-label>
     How to find your&nbsp;
-    <span class="branch-number">Branch</span><ng-container *ngIf="currency === 'CDN'">,&nbsp;
+    <span class="branch-number">Branch</span><ng-container *ngIf="currency === 'CAD'">,&nbsp;
     <span class="institution-number">Institution</span></ng-container>&nbsp;&&nbsp;
     <span class="account-number">Account</span>&nbsp;
     numbers on a Cheque
@@ -9,7 +9,7 @@
 
   <div class="cheque">
     <ng-container [ngSwitch]="currency">
-      <ng-container *ngSwitchCase="'CDN'">
+      <ng-container *ngSwitchCase="'CAD'">
         <img src="/assets/payment/canadian-cheque.svg">
       </ng-container>
       <ng-container *ngSwitchCase="'USD'">
@@ -19,7 +19,7 @@
   </div>
 
   <ng-container [ngSwitch]="currency">
-    <ng-container *ngSwitchCase="'CDN'">
+    <ng-container *ngSwitchCase="'CAD'">
       <mat-form-field class="branch-number">
         <input
           #branchEl

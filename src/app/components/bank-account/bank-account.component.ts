@@ -32,7 +32,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
   }
 
   @Input()
-  public currency: 'USD' | 'CDN' = 'CDN';
+  public currency: 'USD' | 'CAD' = 'CAD';
 
   @Input()
   public showAccountType = true;
