@@ -8,7 +8,6 @@
 
   display: flex;
   justify-content: center;
-  padding-bottom: 15px;
 
   img {
     max-width: 100%;
@@ -18,6 +17,7 @@
 
 fs-label {
   display: inline;
+  margin: 10px 0;
 }
 
 .branch-number {
