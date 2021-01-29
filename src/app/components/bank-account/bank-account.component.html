@@ -44,6 +44,18 @@
             required>
         </mat-form-field>
 
+        <mat-form-field class="account-number">
+          <input
+            #accountEl
+            matInput
+            placeholder="Account # (7-12 Digits)"
+            [ngModel]="_bankAccount.account"
+            [fsFormFunction]="validateAccount"
+            [disabled]="readonly"
+            name="account"
+            required>
+        </mat-form-field>
+
       </ng-container>
 
       <ng-container *ngSwitchCase="'USD'">
@@ -57,21 +69,21 @@
             name="branch"
             required>
         </mat-form-field>
+
+        <mat-form-field class="account-number">
+          <input
+            #accountEl
+            matInput
+            placeholder="Account # (7-20 Digits)"
+            [ngModel]="_bankAccount.account"
+            [fsFormFunction]="validateAccount"
+            [disabled]="readonly"
+            name="account"
+            required>
+        </mat-form-field>
       </ng-container>
     </ng-container>
   </ng-container>
-
-  <mat-form-field class="account-number">
-    <input
-      #accountEl
-      matInput
-      placeholder="Account # (7-12 Digits)"
-      [ngModel]="_bankAccount.account"
-      [fsFormFunction]="validateAccount"
-      [disabled]="readonly"
-      name="account"
-      required>
-  </mat-form-field>
 
   <mat-form-field *ngIf="showAccountType && accountTypes?.length">
     <mat-label>Account Type</mat-label>

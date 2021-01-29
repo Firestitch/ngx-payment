@@ -141,8 +141,11 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 
       setTimeout(() => {
         const length = String(this._bankAccount.account).length;
+        const lessThanMinimum = length < 7;
+        const greaterThanMaximum = (this.currency === 'USD' && length > 20)
+          || (this.currency === 'CAD' && length > 12);
 
-        if (length < 7 || length > 12) {
+        if (lessThanMinimum || greaterThanMaximum) {
           return reject('Invalid account number');
         }
 
@@ -188,7 +191,11 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
     this._destroyMask(this._accountImask);
 
     if (this.accountEl) {
-      this._accountImask = IMask(this.accountEl.nativeElement, { mask: '000000000000' });
+      const mask = this.currency === 'CAD'
+        ? '000000000000'
+        : '00000000000000000000';
+
+      this._accountImask = IMask(this.accountEl.nativeElement, { mask });
       this._accountImask.on('accept', () => {
         this._bankAccount.account = this._accountImask.unmaskedValue;
         this.valueChanged();
