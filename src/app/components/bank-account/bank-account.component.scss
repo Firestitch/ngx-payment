@@ -5,19 +5,14 @@
 }
 
 .cheque {
-
-  display: flex;
-  justify-content: center;
-
   img {
-    max-width: 100%;
-    min-width: 500px;
+    max-width: 500px;
   }
 }
 
+
 fs-label {
-  display: inline;
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .branch-number {
