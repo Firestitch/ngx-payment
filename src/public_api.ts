@@ -10,3 +10,5 @@ export { FsPaymentModule } from './app/fs-payment.module';
 export { CreditCard, PaymentMethodCreditCard } from './app/interfaces/credit-card.interface';
 export { PaymentMethodBankAccount } from './app/interfaces/bank-account.interface';
 export { CreditCardType } from './app/enums/credit-card-type.enum';
+export { FsBankAccountComponent } from './app/components/bank-account/bank-account.component';
+export { FsCreditCardComponent } from './app/components/credit-card/credit-card.component'
