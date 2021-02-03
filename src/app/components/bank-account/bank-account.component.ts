@@ -62,13 +62,13 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 
   @Output() changed: EventEmitter<PaymentMethodBankAccount> = new EventEmitter();
 
-  @ViewChild('branchEl', { static: false })
+  @ViewChild('branchEl')
   public branchEl: ElementRef = null;
 
-  @ViewChild('institutionEl', { static: false })
+  @ViewChild('institutionEl')
   public institutionEl: ElementRef = null;
 
-  @ViewChild('accountEl', { static: false })
+  @ViewChild('accountEl')
   public accountEl: ElementRef = null;
 
   public _bankAccount: PaymentMethodBankAccount = {};

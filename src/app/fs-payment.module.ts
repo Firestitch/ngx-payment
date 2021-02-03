@@ -43,7 +43,7 @@ import { PaymentMethodCreditCardComponent } from './components/payment-method-cr
   ],
 })
 export class FsPaymentModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<FsPaymentModule> {
     return {
       ngModule: FsPaymentModule
     };
