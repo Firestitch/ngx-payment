@@ -11,5 +11,5 @@ export function bankAccountNumber(bankAccountNumber: string | number, showAsteri
     bankAccountNumber = bankAccountNumber.slice(-4);
   }
 
-  return `${showAsterisk ? '**** ' : ''}${bankAccountNumber}`;
+  return `${showAsterisk ? '···· ' : ''}${bankAccountNumber}`;
 }

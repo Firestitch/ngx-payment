@@ -1,0 +1,17 @@
+.row {
+  display: flex;
+  align-items: center;
+
+  .image {
+    height: 30px;
+    margin-right: 8px;
+  }
+
+  .number {
+    line-height: normal;
+    .asterisk {
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+  }
+}

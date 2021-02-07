@@ -7,5 +7,5 @@ export function creditCardNumber(cardNumber: string | number, showAsterisk = tru
     cardNumber = cardNumber.slice(-4);
   }
 
-  return `${showAsterisk ? '**** ' : ''}${cardNumber}`;
+  return `${showAsterisk ? '···· ' : ''}${cardNumber}`;
 }

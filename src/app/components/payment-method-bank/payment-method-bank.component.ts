@@ -13,6 +13,7 @@ import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 @Component({
   selector: 'fs-payment-method-bank',
   templateUrl: './payment-method-bank.component.html',
+  styleUrls: ['./payment-method-bank.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'fs-payment-method',
@@ -30,7 +31,7 @@ export class PaymentMethodBankComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
 
     if (changes.number && changes.number.currentValue !== changes.number.previousValue) {
-      this.formattedNumber = bankAccountNumber(this.number);
+      this.formattedNumber = bankAccountNumber(this.number, false);
     }
   }
 }

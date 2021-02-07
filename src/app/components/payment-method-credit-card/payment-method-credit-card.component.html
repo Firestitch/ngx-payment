@@ -1,5 +1,10 @@
-<ng-container *ngIf="cardImages[type]">
-  <img [src]="cardImages[type]" [alt]="type" class="fs-payment-card-image">&nbsp;
-</ng-container>
-<span class="fs-payment-card-number">{{ formattedNumber }}</span>&nbsp;•&nbsp;
-<span class="fs-payment-expiry-date">{{ formattedExpiryDate }}</span>
+<div class="row">
+  <img *ngIf="cardImages[type]" [src]="cardImages[type]" [alt]="type" class="image">
+  <div>
+    <div class="number">
+      <span class="asterisk">····</span>{{ formattedNumber }}
+    </div>
+    <div class="expiry small">Expires {{ formattedExpiryDate }}</div>
+  </div>
+</div>
+

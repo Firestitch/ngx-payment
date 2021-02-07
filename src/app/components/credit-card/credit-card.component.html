@@ -55,7 +55,7 @@
     <mat-form-field *ngIf="!readonly">
       <input
         matInput
-        placeholder="CVC/CV2"
+        [placeholder]="verificationCode"
         required
         name="cvv"
         [fsFormFunction]="validateCVV"

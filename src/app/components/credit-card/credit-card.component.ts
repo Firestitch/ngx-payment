@@ -44,6 +44,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   public cardNumber = '';
   public months = [];
   public years = [];
+  public verificationCode = 'CVV/CVC';
 
   @Input()
   public configAddress: IFsAddressConfig = {
@@ -105,10 +106,10 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
         const length = String(this.creditCard.cvv).length;
 
         if (length !== 3) {
-          return reject('Invalid CVV number');
+          return reject(`Invalid ${this.verificationCode} number`);
         }
 
-        resolve();
+        resolve(true);
       });
     });
   }
@@ -120,21 +121,27 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
     if (num.match(/^(34|37)/)) {
       this.creditCard.type = CreditCardType.Amex;
+      this.verificationCode = 'CID';
 
     } else if (num.match(/^4/)) {
       this.creditCard.type = CreditCardType.Visa;
+      this.verificationCode = 'CVV';
 
     } else if (num.match(/^(51|52|53|54|55)/)) {
       this.creditCard.type = CreditCardType.Mastercard;
+      this.verificationCode = 'CVC';
 
     } else if (num.match(/^(6011|65|64[4-9]|62212[6-9]|6221[3-9][0-9]|622[2-8][0-9]{2}|6229[01][0-9]|62292[0-5])/)) {
       this.creditCard.type = CreditCardType.Discover;
+      this.verificationCode = 'CID';
 
     } else if (num.match(/^(352[89]|35[3-8][0-9])/)) {
       this.creditCard.type = CreditCardType.JBC;
+      this.verificationCode = 'CAV';
 
     } else {
       this.creditCard.type = null;
+      this.verificationCode = 'CVV/CVC';
     }
 
     if (this.creditCard.type === CreditCardType.Amex) {

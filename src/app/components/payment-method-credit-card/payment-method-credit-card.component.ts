@@ -14,6 +14,7 @@ import { CreditCardType } from '../../enums/credit-card-type.enum';
 
 @Component({
   selector: 'fs-payment-method-credit-card',
+  styleUrls: ['./payment-method-credit-card.component.scss'],
   templateUrl: './payment-method-credit-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -42,7 +43,7 @@ export class PaymentMethodCreditCardComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
 
     if (changes.number && changes.number.currentValue !== changes.number.previousValue) {
-      this.formattedNumber = creditCardNumber(this.number);
+      this.formattedNumber = creditCardNumber(this.number, false);
     }
 
     const datesChanged = (changes.expiryMonth && changes.expiryMonth.currentValue !== changes.expiryMonth.previousValue)
