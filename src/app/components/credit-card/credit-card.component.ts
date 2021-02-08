@@ -16,7 +16,7 @@ import { pick, padStart } from 'lodash-es';
 import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 
 import { CreditCardType } from '../../enums/credit-card-type.enum';
-import { CreditCard, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
+import { CreditCard, CreditCardConfig, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
 
 
 @Component({
@@ -31,6 +31,8 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   public cardNumberEl: ElementRef = null;
 
   @Input() address: FsAddress = {};
+  @Input() creditCardConfig: CreditCardConfig;
+
   @Input() creditCard: CreditCard = {};
 
   @Input()
@@ -47,7 +49,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   public verificationCode = 'CVV/CVC';
 
   @Input()
-  public configAddress: IFsAddressConfig = {
+  public addressConfig: IFsAddressConfig = {
     name: { visible: false },
     street: { required: true },
     city: { required: true },
@@ -59,11 +61,12 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   private _cardNumberImask;
 
   public ngOnInit() {
-
     for (let i = 0; i < 12; i++) {
       this.months.push({ name: padStart(String(i + 1), 2, '0'), value: (i +  1).toString() });
     }
 
+    this.creditCard.expiryMonth = parseInt(this.creditCard.expiryMonth || '').toString();
+    this.creditCard.expiryYear = (this.creditCard.expiryYear || '').toString();
     const year = new Date().getFullYear();
     for (let i = year; i < (year + 10); i++) {
       this.years.push({ name: i, value: i.toString() });
@@ -81,11 +84,28 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.creditCardConfig) {
+      this.creditCardConfig = {
+        ...
+        {
+          name: { readonly: false },
+          number: { readonly: false },
+          expiry: { readonly: false },
+          cvv: { readonly: false },
+        },
+        ...changes.creditCardConfig.currentValue,
+      };
+    }
+
     if (changes.readonly) {
-      Object.keys(this.configAddress)
+      Object.keys(this.addressConfig)
         .forEach((key) => {
-          this.configAddress[key].disabled = this.readonly;
+          this.addressConfig[key].disabled = this.readonly;
         });
+      this.creditCardConfig.name.readonly = changes.readonly.currentValue;
+      this.creditCardConfig.number.readonly = changes.readonly.currentValue;
+      this.creditCardConfig.expiry.readonly = changes.readonly.currentValue;
+      this.creditCardConfig.cvv.readonly = changes.readonly.currentValue;
     }
 
     if (changes.creditCard) {

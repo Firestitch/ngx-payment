@@ -1,17 +1,16 @@
 <div class="card">
-  <mat-form-field>
+  <mat-form-field [ngClass]="{ readonly: creditCardConfig.name.readonly }">
     <input
       matInput
-      placeholder="Card Name"
-      required
+      placeholder="Name on Card"
+      [required]="!creditCardConfig.name.readonly"
       name="name"
       (keyup)="_changed()"
       [(ngModel)]="creditCard.name"
-      [readonly]="readonly"
-      [disabled]="readonly">
+      [readonly]="creditCardConfig.name.readonly">
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field [ngClass]="{ readonly: creditCardConfig.number.readonly }">
     <img
       *ngIf="creditCard.type"
       class="logo"
@@ -20,44 +19,56 @@
       #cardNumberEl
       matInput
       placeholder="Card Number"
-      required
+      [required]="!creditCardConfig.number.readonly"
       name="cardNumber"
       [(ngModel)]="cardNumber"
-      [disabled]="readonly">
+      [readonly]="creditCardConfig.number.readonly">
   </mat-form-field>
 
-  <div class="expiry">
+  <div class="row">
+    <ng-container *ngIf="creditCardConfig.expiry.readonly">
+      <mat-form-field class="expiry-readonly readonly">
+        <input
+          matInput
+          placeholder="Expiry"
+          [value]="creditCard.expiryMonth + '/' + creditCard.expiryYear"
+          name="month"
+          [readonly]="true">
+      </mat-form-field>
+    </ng-container>
 
-    <mat-form-field>
-      <mat-select
-        [(ngModel)]="creditCard.expiryMonth"
-        placeholder="Expiry Month"
-        name="month"
-        [required]="true"
-        [disabled]="readonly"
-        (selectionChange)="_changed()">
-        <mat-option [value]="month.value" *ngFor="let month of months">{{month.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <ng-container *ngIf="!creditCardConfig.expiry.readonly">
+      <mat-form-field>
+        <mat-select
+            [(ngModel)]="creditCard.expiryMonth"
+            placeholder="Expiry Month"
+            name="month"
+            required
+            (selectionChange)="_changed()">
+          <mat-option [value]="month.value" *ngFor="let month of months">{{month.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-select
-        [(ngModel)]="creditCard.expiryYear"
-        placeholder="Expiry Year"
-        name="year"
-        [required]="true"
-        [disabled]="readonly"
-        (selectionChange)="_changed()">
-        <mat-option [value]="year.value" *ngFor="let year of years">{{year.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-select
+            *ngIf="!creditCardConfig.expiry.readonly"
+            [(ngModel)]="creditCard.expiryYear"
+            placeholder="Expiry Year"
+            name="year"
+            required
+            (selectionChange)="_changed()">
+          <mat-option [value]="year.value" *ngFor="let year of years">{{year.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
 
-    <mat-form-field *ngIf="!readonly">
+    <mat-form-field [ngClass]="{ readonly: creditCardConfig.cvv.readonly }">
       <input
         matInput
         [placeholder]="verificationCode"
-        required
+        [required]="!creditCardConfig.cvv.readonly"
         name="cvv"
+        [readonly]="creditCardConfig.number.readonly"
         [fsFormFunction]="validateCVV"
         [(ngModel)]="creditCard.cvv"
         (keyup)="_changed()">
@@ -66,7 +77,7 @@
 
   <fs-address
     [(address)]="address"
-    [config]="configAddress"
+    [config]="addressConfig"
     [excludeCountries]="excludeCountries"
     (addressChange)="_changed()">
   </fs-address>

@@ -16,3 +16,14 @@ export interface CreditCard {
   cvv?: string;
   type?: string;
 }
+
+export interface CreditCardFieldConfig {
+  readonly?: boolean;
+}
+
+export interface CreditCardConfig {
+  name?: CreditCardFieldConfig;
+  number?: CreditCardFieldConfig;
+  expiry?: CreditCardFieldConfig;
+  cvv?: CreditCardFieldConfig;
+}

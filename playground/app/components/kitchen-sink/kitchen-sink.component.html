@@ -2,6 +2,8 @@
 <form (fsForm)="save()">
   <fs-credit-card
     (changed)="changed($event)"
+    [creditCardConfig]="creditCardConfig"
+    [creditCard]="creditCard"
     [address]="address">
   </fs-credit-card>
   <button mat-raised-button>Submit</button>
