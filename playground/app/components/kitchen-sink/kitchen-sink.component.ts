@@ -15,7 +15,7 @@ export class KitchenSinkComponent {
   public config = {};
   public creditCardConfig = {
     // name: { readonly: true },
-    // number: { readonly: true },
+    number: { readonly: false, hint: 'Hint!' },
     // cvv: { readonly: true },
   };
   public creditCard: CreditCard = {

@@ -1,5 +1,5 @@
 <div class="card">
-  <mat-form-field [ngClass]="{ readonly: creditCardConfig.name.readonly }">
+  <mat-form-field [ngClass]="{ readonly: creditCardConfig.name.readonly, 'has-hint': creditCardConfig.name.hint }">
     <input
       matInput
       placeholder="Name on Card"
@@ -8,9 +8,10 @@
       (keyup)="_changed()"
       [(ngModel)]="creditCard.name"
       [readonly]="creditCardConfig.name.readonly">
+    <mat-hint *ngIf="creditCardConfig.name.hint">{{ creditCardConfig.name.hint }}</mat-hint>
   </mat-form-field>
 
-  <mat-form-field [ngClass]="{ readonly: creditCardConfig.number.readonly }">
+  <mat-form-field [ngClass]="{ readonly: creditCardConfig.number.readonly, 'has-hint': creditCardConfig.number.hint }">
     <img
       *ngIf="creditCard.type"
       class="logo"
@@ -23,6 +24,7 @@
       name="cardNumber"
       [(ngModel)]="cardNumber"
       [readonly]="creditCardConfig.number.readonly">
+      <mat-hint *ngIf="creditCardConfig.number.hint">{{ creditCardConfig.number.hint }}</mat-hint>
   </mat-form-field>
 
   <div class="row">

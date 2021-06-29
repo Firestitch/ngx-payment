@@ -19,6 +19,7 @@ export interface CreditCard {
 
 export interface CreditCardFieldConfig {
   readonly?: boolean;
+  hint?: string;
 }
 
 export interface CreditCardConfig {
