@@ -17,6 +17,7 @@ import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 
 import { CreditCardType } from '../../enums/credit-card-type.enum';
 import { CreditCard, CreditCardConfig, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
+import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
   @Output() changed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
 
+  public cardImages: Partial<Record<CreditCardType, string>> = CARD_TYPE_IMAGES;
   public cardNumber = '';
   public months = [];
   public years = [];

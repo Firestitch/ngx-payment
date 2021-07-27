@@ -15,7 +15,7 @@
     <img
       *ngIf="creditCard.type"
       class="logo"
-      [src]="'/assets/payment/cards/' + creditCard.type + '.svg'" [alt]="creditCard.type">
+      [src]="cardImages[creditCard.type]" [alt]="creditCard.type">
     <input
       #cardNumberEl
       matInput
