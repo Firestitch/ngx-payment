@@ -114,7 +114,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
           return reject('Invalid branch number');
         }
 
-        resolve();
+        resolve(null);
       });
     });
   }
@@ -130,7 +130,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
           return reject('Invalid institution number');
         }
 
-        resolve();
+        resolve(null);
       });
     });
   }
@@ -149,7 +149,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
           return reject('Invalid account number');
         }
 
-        resolve();
+        resolve(null);
       });
     });
   }
