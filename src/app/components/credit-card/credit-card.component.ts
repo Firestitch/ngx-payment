@@ -126,8 +126,11 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const length = String(this.creditCard.cvv).length;
+        const CVVNumberOfDigits = this.creditCard.type === CreditCardType.Amex
+          ? 4
+          : 3;
 
-        if (length !== 3) {
+        if (length !== CVVNumberOfDigits) {
           return reject(`Invalid ${this.verificationCode} number`);
         }
 
