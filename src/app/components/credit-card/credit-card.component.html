@@ -7,7 +7,7 @@
       name="name"
       (keyup)="_changed()"
       [(ngModel)]="creditCard.name"
-      [readonly]="creditCardConfig.name.readonly">
+      [disabled]="creditCardConfig.name.readonly">
     <mat-hint *ngIf="creditCardConfig.name.hint">{{ creditCardConfig.name.hint }}</mat-hint>
   </mat-form-field>
 
@@ -23,7 +23,7 @@
       [required]="!creditCardConfig.number.readonly"
       name="cardNumber"
       [(ngModel)]="cardNumber"
-      [readonly]="creditCardConfig.number.readonly">
+      [disabled]="creditCardConfig.number.readonly">
       <mat-hint *ngIf="creditCardConfig.number.hint">{{ creditCardConfig.number.hint }}</mat-hint>
   </mat-form-field>
 
@@ -35,7 +35,7 @@
           placeholder="Expiry"
           [value]="creditCard.expiryMonth + '/' + creditCard.expiryYear"
           name="month"
-          [readonly]="true">
+          [disabled]="true">
       </mat-form-field>
     </ng-container>
 
@@ -70,7 +70,7 @@
         [placeholder]="verificationCode"
         [required]="!creditCardConfig.cvv.readonly"
         name="cvv"
-        [readonly]="creditCardConfig.number.readonly"
+        [disabled]="creditCardConfig.number.readonly"
         [fsFormFunction]="validateCVV"
         [(ngModel)]="creditCard.cvv"
         (keyup)="_changed()">
