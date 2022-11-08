@@ -47,7 +47,7 @@ export class PaymentMethodCreditCardComponent implements OnChanges {
     }
 
     const datesChanged = (changes.expiryMonth && changes.expiryMonth.currentValue !== changes.expiryMonth.previousValue)
-      || (changes.expiryMonth && changes.expiryYear.currentValue !== changes.expiryYear.previousValue);
+      || (changes.expiryYear && changes.expiryYear.currentValue !== changes.expiryYear.previousValue);
 
     if (datesChanged) {
       this.formattedExpiryDate = creditCardExpirationDates(this.expiryMonth, this.expiryYear);
