@@ -4,7 +4,9 @@
     <div class="number">
       <span class="asterisk">····</span>{{ formattedNumber }}
     </div>
-    <div class="expiry small">Expires {{ formattedExpiryDate }}</div>
+    <div class="expiry small" *ngIf="expiryDate" [ngClass]="{ expired: expired }">
+      {{expired ? 'Expired' : 'Expires'}} {{ expiryDate | fsDateFormat: 'MM\'/\'yy' }}
+    </div>
   </div>
 </div>
 

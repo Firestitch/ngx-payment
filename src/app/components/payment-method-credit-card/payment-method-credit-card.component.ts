@@ -6,8 +6,11 @@ import {
   SimpleChanges
 } from '@angular/core';
 
+import { isNumeric } from '@firestitch/common';
+
+import { isAfter } from 'date-fns';
+
 import { creditCardNumber } from '../../helpers/credit-card-number';
-import { creditCardExpirationDates } from '../../helpers/credit-card-expiration-dates';
 import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 import { CreditCardType } from '../../enums/credit-card-type.enum';
 
@@ -17,9 +20,7 @@ import { CreditCardType } from '../../enums/credit-card-type.enum';
   styleUrls: ['./payment-method-credit-card.component.scss'],
   templateUrl: './payment-method-credit-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'class': 'fs-payment-method',
-  },
+  host: { 'class': 'fs-payment-method' },
 })
 export class PaymentMethodCreditCardComponent implements OnChanges {
 
@@ -35,8 +36,11 @@ export class PaymentMethodCreditCardComponent implements OnChanges {
   @Input()
   public expiryYear: string | number;
 
+  @Input()
+  public expiryDate: Date;
+
   public formattedNumber: string;
-  public formattedExpiryDate: string;
+  public expired = false;
 
   public cardImages: Partial<Record<CreditCardType, string>> = CARD_TYPE_IMAGES;
 
@@ -45,12 +49,19 @@ export class PaymentMethodCreditCardComponent implements OnChanges {
     if (changes.number && changes.number.currentValue !== changes.number.previousValue) {
       this.formattedNumber = creditCardNumber(this.number, false);
     }
+    
+    if(changes.expiryMonth || changes.expiryYear) {
+      this.expiryDate = null;
 
-    const datesChanged = (changes.expiryMonth && changes.expiryMonth.currentValue !== changes.expiryMonth.previousValue)
-      || (changes.expiryYear && changes.expiryYear.currentValue !== changes.expiryYear.previousValue);
+      if(isNumeric(this.expiryMonth) && isNumeric(this.expiryYear)) {
+        const expiryYear = Number(this.expiryYear)
+        const year = expiryYear < 2000 ? expiryYear + 2000 : expiryYear;
+        const month = Number(this.expiryMonth)
+        this.expiryDate = new Date(year, month - 1);
+      }
 
-    if (datesChanged) {
-      this.formattedExpiryDate = creditCardExpirationDates(this.expiryMonth, this.expiryYear);
+      
+      this.expired = isAfter(new Date(), this.expiryDate);
     }
   }
 }
