@@ -8,7 +8,7 @@ import {
 
 import { isNumeric } from '@firestitch/common';
 
-import { isAfter } from 'date-fns';
+import { endOfMonth, isAfter } from 'date-fns';
 
 import { creditCardNumber } from '../../helpers/credit-card-number';
 import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
@@ -60,8 +60,7 @@ export class PaymentMethodCreditCardComponent implements OnChanges {
         this.expiryDate = new Date(year, month - 1);
       }
 
-      
-      this.expired = isAfter(new Date(), this.expiryDate);
+      this.expired = isAfter(new Date(), endOfMonth(this.expiryDate));
     }
   }
 }
