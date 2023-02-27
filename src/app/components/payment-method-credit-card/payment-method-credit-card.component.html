@@ -1,5 +1,5 @@
 <div class="row">
-  <img *ngIf="cardImages[type]" [src]="cardImages[type]" [alt]="type" class="image">
+  <img [src]="cardImages[type] || '/assets/payment/cards/generic.svg'" [alt]="type || 'generic'" class="image">
   <div>
     <div class="number">
       <span class="asterisk">····</span>{{ formattedNumber }}

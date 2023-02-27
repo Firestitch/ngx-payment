@@ -144,9 +144,6 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
     const num = String(value);
 
-    const isMasterCard = num.match(/^(5018|5020|5036|5038|5893|5573|6277|6304|6759|6761|6762|6763)[0-9]{8,15}$/)
-      || num.match(/^5[1-5][0-9]{14}$/);
-
     if (num.match(/^(34|37)/)) {
       this.creditCard.type = CreditCardType.Amex;
       this.verificationCode = 'CID';
@@ -155,7 +152,10 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
       this.creditCard.type = CreditCardType.Visa;
       this.verificationCode = 'CVV';
 
-    } else if (isMasterCard) {
+    } else if (
+      num.match(/^(5018|5020|5036|5038|5893|5573|6277|6304|6759|6761|6762|6763)[0-9]{8,15}$/) || 
+      num.match(/^5[1-5][0-9]{14}$/)
+    ) {
       this.creditCard.type = CreditCardType.Mastercard;
       this.verificationCode = 'CVC';
 
@@ -174,10 +174,11 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
     if (this.creditCard.type === CreditCardType.Amex) {
       this._cardNumberImask.updateOptions( { mask: '0000 000000 00000' });
-    } else if ( this.creditCard.type === CreditCardType.Visa ||
-                this.creditCard.type === CreditCardType.Mastercard ||
-                this.creditCard.type === CreditCardType.Discover ||
-                this.creditCard.type === CreditCardType.JBC) {
+    } else if ( 
+      this.creditCard.type === CreditCardType.Visa ||
+      this.creditCard.type === CreditCardType.Mastercard ||
+      this.creditCard.type === CreditCardType.Discover ||
+      this.creditCard.type === CreditCardType.JBC) {
       this._cardNumberImask.updateOptions( { mask: '0000 0000 0000 0000' });
     } else {
       this._cardNumberImask.updateOptions( { mask: '000000000000000000000000000000' });
