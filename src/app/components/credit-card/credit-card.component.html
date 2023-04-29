@@ -1,13 +1,13 @@
 <div class="card">
   <mat-form-field 
-      [ngClass]="{ 
-        readonly: creditCardConfig.name.readonly, 
-        'has-hint': creditCardConfig.name.hint
-      }"
-      [appearance]="creditCardConfig.appearance">
+        [ngClass]="{ 
+          readonly: creditCardConfig.name.readonly, 
+          'has-hint': creditCardConfig.name.hint
+        }"
+        [appearance]="creditCardConfig.appearance">
+      <mat-label>Name on Card</mat-label>
     <input
       matInput
-      placeholder="Name on Card"
       [required]="!creditCardConfig.name.readonly"
       name="name"
       (keyup)="_changed()"
@@ -17,34 +17,35 @@
   </mat-form-field>
 
   <mat-form-field 
-      [appearance]="creditCardConfig.appearance"
-      [ngClass]="{ 
-        readonly: creditCardConfig.number.readonly, 
-        'has-hint': creditCardConfig.number.hint
-      }">
-    <img
-      *ngIf="creditCard.type"
-      class="logo"
-      [src]="cardImages[creditCard.type]" [alt]="creditCard.type">
+        [appearance]="creditCardConfig.appearance"
+        [ngClass]="{ 
+          readonly: creditCardConfig.number.readonly, 
+          'has-hint': creditCardConfig.number.hint
+        }">
+      <mat-label>Card Number</mat-label>
     <input
-      #cardNumberEl
-      matInput
-      placeholder="Card Number"
-      [required]="!creditCardConfig.number.readonly"
-      name="cardNumber"
-      [(ngModel)]="cardNumber"
-      [disabled]="creditCardConfig.number.readonly">
-      <mat-hint *ngIf="creditCardConfig.number.hint">{{ creditCardConfig.number.hint }}</mat-hint>
+        #cardNumberEl
+        matInput
+        [required]="!creditCardConfig.number.readonly"
+        name="cardNumber"
+        [(ngModel)]="cardNumber"
+        [disabled]="creditCardConfig.number.readonly">
+    <mat-hint *ngIf="creditCardConfig.number.hint">{{ creditCardConfig.number.hint }}</mat-hint>
+    <div matSuffix  *ngIf="creditCard.type">
+      <img        
+        class="logo"
+        [src]="cardImages[creditCard.type]" [alt]="creditCard.type">
+    </div>
   </mat-form-field>
 
   <div class="row">
     <ng-container *ngIf="creditCardConfig.expiry.readonly">
       <mat-form-field 
-          [appearance]="creditCardConfig.appearance"
-          class="expiry-readonly readonly">
+            [appearance]="creditCardConfig.appearance"
+            class="expiry-readonly readonly">
+          <mat-label>Expiry</mat-label>
         <input
           matInput
-          placeholder="Expiry"
           [value]="creditCard.expiryMonth + '/' + creditCard.expiryYear"
           name="month"
           [disabled]="true">
@@ -53,9 +54,9 @@
 
     <ng-container *ngIf="!creditCardConfig.expiry.readonly">
       <mat-form-field [appearance]="creditCardConfig.appearance">
+        <mat-label>Expiry Month</mat-label>
         <mat-select
             [(ngModel)]="creditCard.expiryMonth"
-            placeholder="Expiry Month"
             name="month"
             required
             (selectionChange)="_changed()">
@@ -64,10 +65,10 @@
       </mat-form-field>
 
       <mat-form-field [appearance]="creditCardConfig.appearance">
+        <mat-label>Expiry Year</mat-label>
         <mat-select
             *ngIf="!creditCardConfig.expiry.readonly"
             [(ngModel)]="creditCard.expiryYear"
-            placeholder="Expiry Year"
             name="year"
             required
             (selectionChange)="_changed()">
@@ -79,9 +80,9 @@
     <mat-form-field 
         [appearance]="creditCardConfig.appearance"
         [ngClass]="{ readonly: creditCardConfig.cvv.readonly }">
+        <mat-label>{{verificationCode}}</mat-label>
       <input
         matInput
-        [placeholder]="verificationCode"
         [required]="!creditCardConfig.cvv.readonly"
         name="cvv"
         [disabled]="creditCardConfig.number.readonly"

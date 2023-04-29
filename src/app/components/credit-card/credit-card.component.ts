@@ -73,6 +73,14 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
       this.months.push({ name: padStart(String(i + 1), 2, '0'), value: (i +  1).toString() });
     }
 
+    this.creditCardConfig = {
+      name: {},
+      number: {},
+      expiry: {},
+      cvv: {},
+      ...this.creditCardConfig,
+    }
+
     this.creditCard.expiryMonth = parseInt(this.creditCard.expiryMonth || '').toString();
     this.creditCard.expiryYear = (this.creditCard.expiryYear || '').toString();
 

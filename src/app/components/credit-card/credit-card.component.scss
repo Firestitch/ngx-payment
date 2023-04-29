@@ -4,11 +4,9 @@
 }
 
 .logo {
-  position: absolute;
-  right: 0;
-  top: -7px;
   height: 30px;
   border-radius: 3px;
+  margin-bottom: -3px;
 }
 
 :host ::ng-deep {
