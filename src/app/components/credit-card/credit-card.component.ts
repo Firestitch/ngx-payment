@@ -6,7 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges, SimpleChanges
+  OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
@@ -24,7 +24,8 @@ import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
   selector: 'fs-credit-card',
   templateUrl: './credit-card.component.html',
   styleUrls: [ './credit-card.component.scss' ],
-  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
+  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsCreditCardComponent implements OnInit, OnChanges {
 
@@ -32,6 +33,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   public cardNumberEl: ElementRef = null;
 
   @Input() address: FsAddress = {};
+  @Input() showAddress = true;
   @Input() creditCardConfig: CreditCardConfig;
 
   @Input() creditCard: CreditCard = {};
@@ -62,6 +64,10 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
   private _cardNumberImask;
 
+  public constructor(
+    private _cdRef: ChangeDetectorRef,
+  ) {}
+
   public ngOnInit() {
     for (let i = 0; i < 12; i++) {
       this.months.push({ name: padStart(String(i + 1), 2, '0'), value: (i +  1).toString() });
@@ -69,6 +75,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
     this.creditCard.expiryMonth = parseInt(this.creditCard.expiryMonth || '').toString();
     this.creditCard.expiryYear = (this.creditCard.expiryYear || '').toString();
+
     const year = new Date().getFullYear();
     for (let i = year; i < (year + 10); i++) {
       this.years.push({ name: i, value: i.toString() });
@@ -77,12 +84,16 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     const maskOptions = {
       mask: '000000000000000000000000000000'
     };
+
     this._cardNumberImask = IMask(this.cardNumberEl.nativeElement, maskOptions);
     this._cardNumberImask.on('accept', () => {
       this._calculateType(this._cardNumberImask.unmaskedValue);
       this.creditCard.number = this._cardNumberImask.unmaskedValue;
       this._changed();
+      this._cdRef.markForCheck();
     });
+
+    this._calculateType(this.creditCard?.number);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -122,7 +133,6 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   }
 
   public validateCVV = (model) => {
-
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const length = String(this.creditCard.cvv).length;
@@ -139,9 +149,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     });
   }
 
-
   private _calculateType(value) {
-
     const num = String(value);
 
     if (num.match(/^(34|37)/)) {
@@ -185,5 +193,6 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     }
 
     this._cardNumberImask.updateValue();
+    this._cdRef.markForCheck();
   }
 }

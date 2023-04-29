@@ -6,14 +6,12 @@
 .logo {
   position: absolute;
   right: 0;
-  top: -4px;
+  top: -7px;
   height: 30px;
+  border-radius: 3px;
 }
 
-
-
 :host ::ng-deep {
-
   .row {
     display: flex;
     flex-direction: row;

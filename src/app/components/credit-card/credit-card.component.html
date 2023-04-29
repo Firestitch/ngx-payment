@@ -76,12 +76,13 @@
         (keyup)="_changed()">
     </mat-form-field>
   </div>
-
-  <fs-address
-    [(address)]="address"
-    [config]="addressConfig"
-    [excludeCountries]="excludeCountries"
-    (addressChange)="_changed()">
-  </fs-address>
+  <ng-container *ngIf="showAddress">
+    <fs-address
+      [(address)]="address"
+      [config]="addressConfig"
+      [excludeCountries]="excludeCountries"
+      (addressChange)="_changed()">
+    </fs-address>
+  </ng-container>
 </div>
 
