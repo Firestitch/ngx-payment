@@ -34,7 +34,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
   @Input() address: FsAddress = {};
   @Input() showAddress = true;
-  @Input() creditCardConfig: CreditCardConfig;
+  @Input() creditCardConfig: CreditCardConfig = {};
 
   @Input() creditCard: CreditCard = {};
 
@@ -59,7 +59,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     city: { required: true },
     region: { required: true },
     zip: { required: true },
-    country: { required: true }
+    country: { required: true },
   };
 
   private _cardNumberImask;

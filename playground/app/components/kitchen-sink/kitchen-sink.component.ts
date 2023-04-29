@@ -3,7 +3,7 @@ import { KitchenSinkConfigureComponent } from '../kitchen-sink-configure';
 import { FsExampleComponent } from '@firestitch/example';
 import { FsMessage } from '@firestitch/message';
 import { Country, FsAddress } from '@firestitch/address';
-import { CreditCard } from '@firestitch/package';
+import { CreditCard, CreditCardConfig } from '@firestitch/package';
 
 @Component({
   selector: 'kitchen-sink',
@@ -13,10 +13,11 @@ import { CreditCard } from '@firestitch/package';
 export class KitchenSinkComponent {
 
   public config = {};
-  public creditCardConfig = {
+  public creditCardConfig: CreditCardConfig = {
     // name: { readonly: true },
     number: { readonly: false, hint: 'Hint!' },
     // cvv: { readonly: true },
+    appearance: 'outline',
   };
   public creditCard: CreditCard = {
     name: 'Bob Smith',
@@ -26,8 +27,10 @@ export class KitchenSinkComponent {
   }
   public address: FsAddress = { country: Country.Canada };
 
-  constructor(private exampleComponent: FsExampleComponent,
-              private message: FsMessage) {
+  constructor(
+    private exampleComponent: FsExampleComponent,
+    private message: FsMessage
+  ) {
     exampleComponent.setConfigureComponent(KitchenSinkConfigureComponent, { config: this.config });
   }
 
