@@ -11,6 +11,7 @@ import { FsAddressModule } from '@firestitch/address';
 import { FsFormModule } from '@firestitch/form';
 import { FsLabelModule } from '@firestitch/label';
 import { FsDateModule } from '@firestitch/date';
+import { FsMaskModule } from '@firestitch/mask';
 
 import { FsCreditCardComponent } from './components/credit-card/credit-card.component';
 import { FsBankAccountComponent } from './components/bank-account/bank-account.component';
@@ -34,6 +35,7 @@ import { FsDatePickerModule } from '@firestitch/datepicker';
     FsLabelModule,
     FsDatePickerModule,
     FsDateModule,
+    FsMaskModule,
   ],
   exports: [
     FsCreditCardComponent,

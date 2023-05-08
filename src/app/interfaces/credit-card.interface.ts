@@ -24,6 +24,7 @@ export interface CreditCardFieldConfig {
 }
 
 export interface CreditCardConfig {
+  showAddress?: boolean;
   name?: CreditCardFieldConfig;
   number?: CreditCardFieldConfig;
   expiry?: CreditCardFieldConfig;

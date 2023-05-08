@@ -31,7 +31,9 @@
         [(ngModel)]="cardNumber"
         [disabled]="creditCardConfig.number.readonly">
     <mat-hint *ngIf="creditCardConfig.number.hint">{{ creditCardConfig.number.hint }}</mat-hint>
-    <div matSuffix  *ngIf="creditCard.type">
+    <div 
+        matSuffix  
+        *ngIf="creditCard.type">
       <img        
         class="logo"
         [src]="cardImages[creditCard.type]" [alt]="creditCard.type">
@@ -51,29 +53,22 @@
           [disabled]="true">
       </mat-form-field>
     </ng-container>
-
     <ng-container *ngIf="!creditCardConfig.expiry.readonly">
-      <mat-form-field [appearance]="creditCardConfig.appearance">
-        <mat-label>Expiry Month</mat-label>
-        <mat-select
-            [(ngModel)]="creditCard.expiryMonth"
-            name="month"
-            required
-            (selectionChange)="_changed()">
-          <mat-option [value]="month.value" *ngFor="let month of months">{{month.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field [appearance]="creditCardConfig.appearance">
-        <mat-label>Expiry Year</mat-label>
-        <mat-select
-            *ngIf="!creditCardConfig.expiry.readonly"
-            [(ngModel)]="creditCard.expiryYear"
-            name="year"
-            required
-            (selectionChange)="_changed()">
-          <mat-option [value]="year.value" *ngFor="let year of years">{{year.name}}</mat-option>
-        </mat-select>
+      <mat-form-field 
+            [appearance]="creditCardConfig.appearance"
+            class="expiry-readonly readonly">
+          <mat-label>Expiry Date</mat-label>
+        <input
+          matInput
+          required
+          [(ngModel)]="expiry"
+          (ngModelChange)="expiryChange($event)"
+          fsMask
+          [fsFormFunction]="expiryValidate"
+          [mask]="'MM/YY'"
+          [blocks]="expiryBlocks"
+          [lazy]="false"
+          name="expiry">
       </mat-form-field>
     </ng-container>
 
@@ -91,7 +86,7 @@
         (keyup)="_changed()">
     </mat-form-field>
   </div>
-  <ng-container *ngIf="showAddress">
+  <ng-container *ngIf="creditCardConfig.showAddress !== false">
     <fs-address
       [(address)]="address"
       [config]="addressConfig"

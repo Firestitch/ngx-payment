@@ -11,7 +11,7 @@ import {
 import { ControlContainer, NgForm } from '@angular/forms';
 
 import IMask from 'imask';
-import { pick, padStart } from 'lodash-es';
+import { pick } from 'lodash-es';
 
 import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 
@@ -32,11 +32,10 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   @ViewChild('cardNumberEl', { static: true })
   public cardNumberEl: ElementRef = null;
 
-  @Input() address: FsAddress = {};
-  @Input() showAddress = true;
-  @Input() creditCardConfig: CreditCardConfig = {};
+  @Input() public address: FsAddress = {};
+  @Input() public creditCardConfig: CreditCardConfig = {};
 
-  @Input() creditCard: CreditCard = {};
+  @Input() public creditCard: CreditCard = {};
 
   @Input()
   public excludeCountries: string[];
@@ -48,9 +47,21 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
   public cardImages: Partial<Record<CreditCardType, string>> = CARD_TYPE_IMAGES;
   public cardNumber = '';
-  public months = [];
-  public years = [];
+  public expiry = '';
   public verificationCode = 'CVV/CVC';
+  public creditCardMask = '';
+  public expiryBlocks = {
+    MM: {        
+      mask: IMask.MaskedRange,
+      from: 1,
+      to: 12,
+      placeholderChar: 'M'
+    },
+    YY: {
+      mask: '00',
+      placeholderChar: 'Y'
+    },
+  };
 
   @Input()
   public addressConfig: IFsAddressConfig = {
@@ -69,10 +80,6 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   ) {}
 
   public ngOnInit() {
-    for (let i = 0; i < 12; i++) {
-      this.months.push({ name: padStart(String(i + 1), 2, '0'), value: (i +  1).toString() });
-    }
-
     this.creditCardConfig = {
       name: {},
       number: {},
@@ -83,11 +90,6 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
     this.creditCard.expiryMonth = parseInt(this.creditCard.expiryMonth || '').toString();
     this.creditCard.expiryYear = (this.creditCard.expiryYear || '').toString();
-
-    const year = new Date().getFullYear();
-    for (let i = year; i < (year + 10); i++) {
-      this.years.push({ name: i, value: i.toString() });
-    }
 
     const maskOptions = {
       mask: '000000000000000000000000000000'
@@ -102,6 +104,9 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     });
 
     this._calculateType(this.creditCard?.number);
+
+    this.expiry = (this.creditCard?.expiryMonth || '').padStart(2, '0') + 
+      String(this.creditCard?.expiryYear || '').substring(2, 4);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -132,6 +137,24 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     if (changes.creditCard) {
       this.cardNumber = this.creditCard.number;
     }
+  }
+
+  public expiryValidate = (model) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (model.value.length !== 4) {
+          return reject(`Invalid expiry date`);
+        }
+
+        resolve(true);
+      });
+    });
+  }
+
+  public expiryChange(value): void{
+    this.creditCard.expiryMonth = String(Number(value.substr(0, 2)));
+    this.creditCard.expiryYear = String(Number(value.substr(2, 4)) + 2000);
+    this._changed();
   }
 
   public _changed() {

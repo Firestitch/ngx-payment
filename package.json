@@ -2,7 +2,7 @@
   "name": "@firestitch/payment",
   "title": "Payment",
   "description": "@firestitch/payment",
-  "version": "12.1.10",
+  "version": "12.1.11",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-payment"
@@ -25,7 +25,6 @@
     "serve": "cd node_modules/@firestitch/component-tools && npm run cli:serve"
   },
   "devDependencies": {
-    "@agm/core": "^1.0.0-beta.7",
     "@angular-devkit/build-angular": "~12.2.16",
     "@angular-devkit/core": "^12.2.16",
     "@angular/animations": "^12.2.16",
@@ -42,34 +41,36 @@
     "@angular/platform-browser-dynamic": "^12.2.16",
     "@angular/router": "^12.2.16",
     "@compodoc/compodoc": "^1.1.9",
-    "@firestitch/address": "^12.0.3",
+    "@firestitch/address": "^13.0.3",
     "@firestitch/autocomplete": "^12.0.0",
     "@firestitch/autocomplete-chips": "^12.0.0",
     "@firestitch/clear": "^12.0.0",
     "@firestitch/common": "^12.5.1",
     "@firestitch/component-tools": "^12.0.11",
-    "@firestitch/core": "^9.1.2",
+    "@firestitch/core": "^12.0.3",
     "@firestitch/date": "^12.0.0",
     "@firestitch/datepicker": "^12.1.0",
     "@firestitch/dialog": "^12.1.0",
-    "@firestitch/drawer": "^12.0.0",
+    "@firestitch/drawer": "^12.1.1",
     "@firestitch/example": "^12.0.0",
     "@firestitch/form": "^12.0.1",
+    "@firestitch/file": "^12.10.10",
     "@firestitch/iframe": "^12.0.0",
     "@firestitch/label": "^12.0.0",
     "@firestitch/menu": "^12.0.1",
+    "@firestitch/popover": "^12.1.3",
+    "@firestitch/map": "^12.1.5",
+    "@firestitch/mask": "^12.3.3",
     "@firestitch/message": "^12.1.0",
     "@firestitch/prompt": "^12.0.1",
     "@firestitch/scroll-picker": "^12.0.0",
     "@firestitch/store": "^12.0.0",
     "@firestitch/style": "^12.0.0",
-    "@types/googlemaps": "^3.43.3",
     "codelyzer": "^6.0.0",
     "cpx": "^1.5.0",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.3.1",
     "hammerjs": "^2.0.8",
-    "imask": "^5.1.7",
     "lodash-es": "^4.17.11",
     "ng-packagr": "^12.2.7",
     "ngx-highlightjs": "^4.1.4",
@@ -86,8 +87,7 @@
   },
   "peerDependencies": {
     "@firestitch/address": ">=8.4.1",
-    "@firestitch/label": ">=7.1.2",
-    "imask": ">=5.1.7"
+    "@firestitch/label": ">=7.1.2"
   },
   "dependencies": {
     "tslib": "^2.0.0"
