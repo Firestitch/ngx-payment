@@ -27,6 +27,10 @@
     }
   }
 
+  .cvv .mat-form-field-label {
+    text-transform: uppercase;
+  }
+
   .mat-form-field.readonly {
     .mat-form-field-underline {
       background-color: transparent;
