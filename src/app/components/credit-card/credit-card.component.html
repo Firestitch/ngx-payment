@@ -56,9 +56,11 @@
     <ng-container *ngIf="!creditCardConfig.expiry.readonly">
       <mat-form-field 
             [appearance]="creditCardConfig.appearance"
-            class="expiry-date expiry-readonly readonly">
+            class="expiry-date expiry-readonly readonly"
+            [ngClass]="{ empty: !expiry }">
           <mat-label>Expiry Date</mat-label>
         <input
+          #cardExpiryEl
           matInput
           required
           [(ngModel)]="expiry"
@@ -67,7 +69,9 @@
           [fsFormFunction]="expiryValidate"
           [mask]="'MM / YY'"
           [blocks]="expiryBlocks"
-          [lazy]="false"
+          [lazy]="true"
+          (focus)="expiryFocus()"
+          (blur)="expiryBlur()"
           name="expiry">
       </mat-form-field>
     </ng-container>

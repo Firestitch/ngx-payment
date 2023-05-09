@@ -22,8 +22,6 @@ export class KitchenSinkComponent {
   public creditCard: CreditCard = {
     name: 'Bob Smith',
     number: '4242424242424242',
-    expiryMonth: '10',
-    expiryYear: '2028',
   }
   public address: FsAddress = { country: Country.Canada };
 

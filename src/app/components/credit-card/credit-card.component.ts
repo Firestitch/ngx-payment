@@ -18,6 +18,7 @@ import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 import { CreditCardType } from '../../enums/credit-card-type.enum';
 import { CreditCard, CreditCardConfig, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
 import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
+import { FsMaskDirective } from '@firestitch/mask';
 
 
 @Component({
@@ -30,7 +31,10 @@ import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 export class FsCreditCardComponent implements OnInit, OnChanges {
 
   @ViewChild('cardNumberEl', { static: true })
-  public cardNumberEl: ElementRef = null;
+  public cardNumberEl: ElementRef;
+
+  @ViewChild('cardExpiryEl', { read: FsMaskDirective })
+  public cardExpiryEl: FsMaskDirective;
 
   @Input() public address: FsAddress = {};
   @Input() public creditCardConfig: CreditCardConfig = {};
@@ -105,8 +109,12 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
     this._calculateType(this.creditCard?.number);
 
-    this.expiry = (this.creditCard?.expiryMonth || '').padStart(2, '0') + 
-      String(this.creditCard?.expiryYear || '').substring(2, 4);
+    if(this.creditCard?.expiryMonth && this.creditCard?.expiryYear) {
+      this.expiry = (
+        String((this.creditCard?.expiryMonth || '').padStart(2, '0')) + 
+        String(this.creditCard?.expiryYear || '').substring(2, 4)
+      );
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -155,6 +163,14 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     this.creditCard.expiryMonth = String(Number(value.substr(0, 2)));
     this.creditCard.expiryYear = String(Number(value.substr(2, 4)) + 2000);
     this._changed();
+  }
+
+  public expiryFocus(): void {
+    this.cardExpiryEl.imask.updateOptions({ lazy: false });
+  }
+
+  public expiryBlur(): void {    
+    this.cardExpiryEl.imask.updateOptions({ lazy: true });
   }
 
   public _changed() {
