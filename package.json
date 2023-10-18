@@ -57,6 +57,7 @@
     "@firestitch/form": "^12.0.1",
     "@firestitch/iframe": "^12.0.0",
     "@firestitch/label": "^12.0.0",
+    "@firestitch/lint": "^12.0.18",
     "@firestitch/map": "^12.1.5",
     "@firestitch/mask": "^12.3.5",
     "@firestitch/menu": "^12.0.1",
