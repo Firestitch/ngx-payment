@@ -1,19 +1,20 @@
 import {
-  Component,
-  ViewChild,
-  ElementRef,
-  Input,
-  Output,
-  EventEmitter,
   AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
   OnChanges,
+  Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
+import { IFsAddressConfig } from '@firestitch/address';
+
 import IMask from 'imask';
 
-import { IFsAddressConfig } from '@firestitch/address';
 
 import { PaymentMethodBankAccount } from '../../interfaces/bank-account.interface';
 
@@ -21,8 +22,8 @@ import { PaymentMethodBankAccount } from '../../interfaces/bank-account.interfac
 @Component({
   selector: 'fs-bank-account',
   templateUrl: './bank-account.component.html',
-  styleUrls: [ './bank-account.component.scss' ],
-  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
+  styleUrls: ['./bank-account.component.scss'],
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 
@@ -44,11 +45,24 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
   public readonly = false;
 
   @Input()
+  public branchCadLabel = 'Branch # (5-Digits)';
+  @Input()
+  public branchUsdLabel = 'Routing # (9-Digits)';
+  @Input()
+  public institutionLabel = 'Institution # (3-Digits)';
+  @Input()
+  public accountCadLabel = 'Account # (7-12 Digits)';
+  @Input()
+  public accountUsdLabel = 'Account # (7-20 Digits)';
+  @Input()
+  public accountTypeLabel = 'Account Type';
+
+  @Input()
   public accountTypes = [
     { name: 'Checking', value: 'CHECKING' },
     { name: 'Savings', value: 'SAVINGS' },
     { name: 'Loan', value: 'LOAN' },
-  ]
+  ];
 
   @Input()
   public configAddress: IFsAddressConfig = {
@@ -57,7 +71,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
     city: { required: true },
     zip: { required: true },
     region: { required: true },
-    country: { required: true }
+    country: { required: true },
   };
 
   @Output() changed: EventEmitter<PaymentMethodBankAccount> = new EventEmitter();
@@ -117,7 +131,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
         resolve(null);
       });
     });
-  }
+  };
 
   public validateInstitution = (model) => {
 
@@ -133,7 +147,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
         resolve(null);
       });
     });
-  }
+  };
 
   public validateAccount = (model) => {
 
@@ -152,7 +166,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
         resolve(null);
       });
     });
-  }
+  };
 
   public valueChanged() {
     this.changed.emit(this._bankAccount);
@@ -166,7 +180,7 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
         ? '00000'
         : '000000000';
 
-      this._branchImask = IMask(this.branchEl.nativeElement, { mask: mask });
+      this._branchImask = IMask(this.branchEl.nativeElement, { mask });
       this._branchImask.on('accept', () => {
         this._bankAccount.branch = this._branchImask.unmaskedValue;
 

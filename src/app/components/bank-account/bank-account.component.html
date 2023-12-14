@@ -25,7 +25,7 @@
           <input
             #branchEl
             matInput
-            placeholder="Branch # (5-Digits)"
+            [placeholder]="branchCadLabel"
             [ngModel]="_bankAccount.branch"
             [fsFormFunction]="validateBranch"
             name="branch"
@@ -37,7 +37,7 @@
           <input
             #institutionEl
             matInput
-            placeholder="Institution # (3-Digits)"
+            [placeholder]="institutionLabel"
             [ngModel]="_bankAccount.institution"
             [fsFormFunction]="validateInstitution"
             name="institution"
@@ -49,7 +49,7 @@
         <input
           #accountEl
           matInput
-          placeholder="Account # (7-12 Digits)"
+          [placeholder]="accountCadLabel"
           [ngModel]="_bankAccount.account"
           [fsFormFunction]="validateAccount"
           [disabled]="readonly"
@@ -64,7 +64,7 @@
           <input
             #branchEl
             matInput
-            placeholder="Routing # (9-Digits)"
+            [placeholder]="branchUsdLabel"
             [ngModel]="_bankAccount.branch"
             [fsFormFunction]="validateBranch"
             name="branch"
@@ -76,7 +76,7 @@
         <input
           #accountEl
           matInput
-          placeholder="Account # (7-20 Digits)"
+          [placeholder]="accountUsdLabel"
           [ngModel]="_bankAccount.account"
           [fsFormFunction]="validateAccount"
           [disabled]="readonly"
@@ -87,7 +87,7 @@
   </ng-container>
 
   <mat-form-field *ngIf="showAccountType && accountTypes?.length">
-    <mat-label>Account Type</mat-label>
+    <mat-label>{{ accountTypeLabel }}</mat-label>
     <mat-select [(ngModel)]="_bankAccount.accountType"
                 [disabled]="readonly"
                 (ngModelChange)="valueChanged()"
