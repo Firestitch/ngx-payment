@@ -29,33 +29,30 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  bootstrap: [ AppComponent ],
-  imports: [
-    BrowserModule,
-    FsPaymentModule,
-    BrowserAnimationsModule,
-    AppMaterialModule,
-    FormsModule,
-    FsLabelModule,
-    FsFormModule,
-    FsExampleModule.forRoot(),
-    FsMessageModule.forRoot(),
-    ToastrModule.forRoot({ preventDuplicates: true }),
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
-    MatButtonModule,
-  ],
-  entryComponents: [
-    KitchenSinkConfigureComponent
-  ],
-  declarations: [
-    AppComponent,
-    ExamplesComponent,
-    KitchenSinkComponent,
-    KitchenSinkConfigureComponent,
-    BankAccountComponent,
-    PaymentMethodDisplayComponent,
-    BankAccountUsComponent,
-  ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        FsPaymentModule,
+        BrowserAnimationsModule,
+        AppMaterialModule,
+        FormsModule,
+        FsLabelModule,
+        FsFormModule,
+        FsExampleModule.forRoot(),
+        FsMessageModule.forRoot(),
+        ToastrModule.forRoot({ preventDuplicates: true }),
+        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+        MatButtonModule,
+    ],
+    declarations: [
+        AppComponent,
+        ExamplesComponent,
+        KitchenSinkComponent,
+        KitchenSinkConfigureComponent,
+        BankAccountComponent,
+        PaymentMethodDisplayComponent,
+        BankAccountUsComponent,
+    ]
 })
 export class PlaygroundModule {
 }
