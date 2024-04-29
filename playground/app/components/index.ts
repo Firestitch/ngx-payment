@@ -1,3 +1,3 @@
+export * from './credit-card';
 export * from './examples';
-export * from './kitchen-sink';
 

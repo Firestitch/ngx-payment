@@ -62,7 +62,12 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "stylePreprocessorOptions": {
+                "includePaths": [
+                  "node_modules/"
+                ]
+              }
             }
           }
         },

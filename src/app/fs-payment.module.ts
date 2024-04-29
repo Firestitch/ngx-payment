@@ -1,23 +1,24 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
-import { MatSelectModule } from '@angular/material/select'
-import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { FsAddressModule } from '@firestitch/address';
+import { FsDateModule } from '@firestitch/date';
 import { FsFormModule } from '@firestitch/form';
 import { FsLabelModule } from '@firestitch/label';
-import { FsDateModule } from '@firestitch/date';
 import { FsMaskModule } from '@firestitch/mask';
 
-import { FsCreditCardComponent } from './components/credit-card/credit-card.component';
-import { FsBankAccountComponent } from './components/bank-account/bank-account.component';
-import { PaymentMethodBankComponent } from './components/payment-method-bank/payment-method-bank.component';
-import { PaymentMethodCreditCardComponent } from './components/payment-method-credit-card/payment-method-credit-card.component';
 import { FsDatePickerModule } from '@firestitch/datepicker';
+import {
+  FsBankAccountComponent, FsCreditCardComponent,
+  FsCreditCardStripeComponent,
+  PaymentMethodBankComponent, PaymentMethodCreditCardComponent
+} from './components';
 
 
 @NgModule({
@@ -42,12 +43,14 @@ import { FsDatePickerModule } from '@firestitch/datepicker';
     FsBankAccountComponent,
     PaymentMethodBankComponent,
     PaymentMethodCreditCardComponent,
+    FsCreditCardStripeComponent,
   ],
   declarations: [
     FsCreditCardComponent,
     FsBankAccountComponent,
     PaymentMethodBankComponent,
     PaymentMethodCreditCardComponent,
+    FsCreditCardStripeComponent,
   ],
 })
 export class FsPaymentModule {

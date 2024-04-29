@@ -1,12 +1,14 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  OnInit,
-  ViewChild,
   ElementRef,
-  Input,
-  Output,
   EventEmitter,
-  OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 
@@ -15,10 +17,10 @@ import { pick } from 'lodash-es';
 
 import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 
+import { FsMaskDirective } from '@firestitch/mask';
+import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 import { CreditCardType } from '../../enums/credit-card-type.enum';
 import { CreditCard, CreditCardConfig, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
-import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
-import { FsMaskDirective } from '@firestitch/mask';
 
 
 @Component({
