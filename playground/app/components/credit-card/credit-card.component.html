@@ -13,7 +13,7 @@
 
 <h3>Stripe</h3>
 <form fsForm [submit]="submitStripe">
-    <fs-credit-card-stripe
+  <fs-credit-card-stripe
     (changed)="changed($event)"
     [config]="creditCardConfig"
     [creditCard]="creditCard">

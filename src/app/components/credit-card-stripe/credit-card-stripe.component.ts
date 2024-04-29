@@ -113,6 +113,10 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
     return from(this._stripe.createToken(this._card));
   }
 
+  public createSource(): Observable<any> {
+    return from(this._stripe.createSource(this._card));
+  }
+
   private _initStripe(clientSecret): void {
     const inputStyle = getComputedStyle(this.dummyInput.nativeElement);
     const fontFamily = inputStyle.fontFamily.replace(/"/g,'');
