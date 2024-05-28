@@ -43,6 +43,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
 
   @Input() public config: CreditCardConfig = {};
   @Input() public creditCard: CreditCard = {};
+  @Input() public setupIntents: () => Observable<{ clientSecret: string }>;
 
   @Output() changed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
 
@@ -178,7 +179,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
     loadJs('https://js.stripe.com/v3/')
     .pipe(
       switchMap(() => {
-        return this._paymentConfig.stripe.setupIntents()
+        return this.setupIntents ? this.setupIntents() : this._paymentConfig.stripe.setupIntents()
       })        
     )
     .subscribe(({ clientSecret }) => {
