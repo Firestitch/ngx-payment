@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
 import { CreditCard, CreditCardConfig, FsCreditCardStripeComponent, Provider } from '@firestitch/package';
+
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -25,12 +27,12 @@ export class CreditCardComponent {
   public creditCard: CreditCard = {
     name: 'Bob Smith',
     number: '4242424242424242',
-  }
+  };
 
   public address: FsAddress = { country: Country.Canada };
 
   constructor(
-    private _message: FsMessage
+    private _message: FsMessage,
   ) {
   }
 
@@ -39,14 +41,13 @@ export class CreditCardComponent {
   }
 
   public submitStripe = () => {
-   return this.stripe.createToken()
-    .pipe(
-      tap((token) => {
-        debugger;
-        this._message.info(token);
-      })
-    );
-  }
+    return this.stripe.createToken()
+      .pipe(
+        tap((token) => {
+          this._message.info(token);
+        }),
+      );
+  };
 
   public save() {
     this._message.success('Submitted');
