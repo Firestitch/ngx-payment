@@ -142,6 +142,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
 
     const elements = this._stripe.elements({ 
       clientSecret: clientSecret,
+      locale: 'en',
       fonts: [
         {
           cssSrc: cssUrl.toString(),
