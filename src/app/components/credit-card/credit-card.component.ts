@@ -20,6 +20,7 @@ import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 import { FsMaskDirective } from '@firestitch/mask';
 import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 import { CreditCardType } from '../../enums/credit-card-type.enum';
+import { isCreditCardExpired } from '../../helpers/credit-card-expired';
 import { CreditCard, CreditCardConfig, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
 
 
@@ -48,6 +49,9 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
 
   @Input()
   public readonly = false;
+
+  @Input()
+  public allowExpired = false;
 
   @Output() changed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
 
@@ -153,6 +157,10 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (model.value.length !== 4) {
+          return reject(`Invalid expiry date`);
+        }
+
+        if (!this.allowExpired && isCreditCardExpired(model.value)) {
           return reject(`Invalid expiry date`);
         }
 
