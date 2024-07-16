@@ -27,6 +27,7 @@
         #cardNumberEl
         matInput
         [required]="!creditCardConfig.number.readonly"
+        [fsFormFunction]="validateCardNumber"
         name="cardNumber"
         [(ngModel)]="cardNumber"
         [disabled]="creditCardConfig.number.readonly">
@@ -66,7 +67,7 @@
           [(ngModel)]="expiry"
           (ngModelChange)="expiryChange($event)"
           fsMask
-          [fsFormFunction]="expiryValidate"
+          [fsFormFunction]="validateExpiry"
           [mask]="'MM / YY'"
           [blocks]="expiryBlocks"
           [lazy]="true"

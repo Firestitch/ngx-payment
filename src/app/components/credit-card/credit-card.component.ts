@@ -8,27 +8,30 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
+
+import { FsAddress, IFsAddressConfig } from '@firestitch/address';
+import { FsMaskDirective } from '@firestitch/mask';
 
 import IMask from 'imask';
 import { pick } from 'lodash-es';
 
-import { FsAddress, IFsAddressConfig } from '@firestitch/address';
 
-import { FsMaskDirective } from '@firestitch/mask';
 import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 import { CreditCardType } from '../../enums/credit-card-type.enum';
 import { isCreditCardExpired } from '../../helpers/credit-card-expired';
-import { CreditCard, CreditCardConfig, PaymentMethodCreditCard } from '../../interfaces/credit-card.interface';
+import {
+  CreditCard, CreditCardConfig, PaymentMethodCreditCard,
+} from '../../interfaces/credit-card.interface';
 
 
 @Component({
   selector: 'fs-credit-card',
   templateUrl: './credit-card.component.html',
-  styleUrls: [ './credit-card.component.scss' ],
-  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ],
+  styleUrls: ['./credit-card.component.scss'],
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsCreditCardComponent implements OnInit, OnChanges {
@@ -53,7 +56,7 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   @Input()
   public allowExpired = false;
 
-  @Output() changed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
+  @Output() public changed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
 
   public cardImages: Partial<Record<CreditCardType, string>> = CARD_TYPE_IMAGES;
   public cardNumber = '';
@@ -65,27 +68,27 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
       mask: IMask.MaskedRange,
       from: 1,
       to: 12,
-      placeholderChar: 'M'
+      placeholderChar: 'M',
     },
     YY: {
       mask: '00',
-      placeholderChar: 'Y'
+      placeholderChar: 'Y',
     },
   };
 
   @Input()
   public addressConfig: IFsAddressConfig = {
-    name: { visible: false },
-    street: { required: true },
-    city: { required: true },
-    region: { required: true },
-    zip: { required: true },
-    country: { required: true },
-  };
+      name: { visible: false },
+      street: { required: true },
+      city: { required: true },
+      region: { required: true },
+      zip: { required: true },
+      country: { required: true },
+    };
 
   private _cardNumberImask;
 
-  public constructor(
+  constructor(
     private _cdRef: ChangeDetectorRef,
   ) {}
 
@@ -96,13 +99,13 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
       expiry: {},
       cvv: {},
       ...this.creditCardConfig,
-    }
+    };
 
     this.creditCard.expiryMonth = parseInt(this.creditCard.expiryMonth || '').toString();
     this.creditCard.expiryYear = (this.creditCard.expiryYear || '').toString();
 
     const maskOptions = {
-      mask: '000000000000000000000000000000'
+      mask: '000000000000000000000000000000',
     };
 
     this._cardNumberImask = IMask(this.cardNumberEl.nativeElement, maskOptions);
@@ -153,21 +156,27 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     }
   }
 
-  public expiryValidate = (model) => {
+  public validateCardNumber = (model) => {
+    if (!this._cardNumberImask.masked.isComplete) {
+      throw new Error('Invalid card number');
+    }
+  };
+
+  public validateExpiry = (model) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (model.value.length !== 4) {
-          return reject(`Invalid expiry date`);
+          return reject('Invalid expiry date');
         }
 
         if (!this.allowExpired && isCreditCardExpired(model.value)) {
-          return reject(`Invalid expiry date`);
+          return reject('Invalid expiry date');
         }
 
         resolve(true);
       });
     });
-  }
+  };
 
   public expiryChange(value): void{
     this.creditCard.expiryMonth = String(Number(value.substr(0, 2)));
@@ -186,25 +195,25 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   public _changed() {
     const picked = ['street', 'city', 'zip', 'country', 'region'];
     const address = pick(this.address, picked);
-    this.changed.emit({ address: address, creditCard: this.creditCard});
+    this.changed.emit({ address: address, creditCard: this.creditCard });
   }
 
   public validateCVV = (model) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const length = String(this.creditCard.cvv).length;
-        const CVVNumberOfDigits = this.creditCard.type === CreditCardType.Amex
+        const cvvNumberOfDigits = this.creditCard.type === CreditCardType.Amex
           ? 4
           : 3;
 
-        if (length !== CVVNumberOfDigits) {
+        if (length !== cvvNumberOfDigits) {
           return reject(`Invalid ${this.verificationCode} number`);
         }
 
         resolve(true);
       });
     });
-  }
+  };
 
   private _calculateType(value) {
     const num = String(value);

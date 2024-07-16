@@ -26,7 +26,7 @@ export class CreditCardComponent {
 
   public creditCard: CreditCard = {
     name: 'Bob Smith',
-    number: '4242424242424242',
+    number: '',
   };
 
   public address: FsAddress = { country: Country.Canada };
