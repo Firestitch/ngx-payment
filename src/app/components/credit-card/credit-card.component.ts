@@ -157,9 +157,15 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
   }
 
   public validateCardNumber = (model) => {
-    if (!this._cardNumberImask.masked.isComplete) {
-      throw new Error('Invalid card number');
-    }
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (!this._cardNumberImask.masked.isComplete) {
+          return reject('Invalid card number');
+        }
+
+        resolve(true);
+      });
+    });
   };
 
   public validateExpiry = (model) => {
