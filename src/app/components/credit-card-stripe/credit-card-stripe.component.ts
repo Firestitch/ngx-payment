@@ -134,11 +134,14 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
 
   private _initStripe(clientSecret): void {
     const inputStyle = getComputedStyle(this.dummyInput.nativeElement);
-    const fontFamily = inputStyle.fontFamily.replace(/"/g,'');
+    const fontFamily = inputStyle.fontFamily.split(',')
+      .map((f) => f.trim())
+      .map((f) => f.replace(/["']/g, ''))
+      .find(() => true);
+
     this._stripe = (window as any).Stripe(this._paymentConfig.stripe?.publishableKey);
 
     const cssUrl = new URL(`https://fonts.googleapis.com/css2?family=${fontFamily}&display=swap`);
-
     const elements = this._stripe.elements({ 
       clientSecret: clientSecret,
       locale: 'en',
