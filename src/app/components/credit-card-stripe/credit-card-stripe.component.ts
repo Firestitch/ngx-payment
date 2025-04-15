@@ -78,7 +78,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
     this._initProvider();
   }
 
-  public validate = ((formControl) => {
+  public validate = (() => {
     return of(null)
       .pipe(
         switchMap(() => {
@@ -137,8 +137,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
     const fontFamily = inputStyle.fontFamily.replace(/"/g,'');
     this._stripe = (window as any).Stripe(this._paymentConfig.stripe?.publishableKey);
 
-    const cssUrl = new URL('https://fonts.googleapis.com/css');
-    cssUrl.searchParams.append('family', `${fontFamily  }:400,500`);
+    const cssUrl = new URL(`https://fonts.googleapis.com/css2?family=${fontFamily}&display=swap`);
 
     const elements = this._stripe.elements({ 
       clientSecret: clientSecret,
@@ -165,7 +164,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
       },
     );
 
-    this._card.on('blur', (event) => {
+    this._card.on('blur', () => {
       let message = '';
       if(this.cardEl.classList.contains('StripeElement--invalid')) {
         message = 'The card is invalid';
