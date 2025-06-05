@@ -9,47 +9,62 @@
       </ng-container>
     </ng-container>
   </div>
-
   <fs-label>
     How to find your&nbsp;
-    <span class="branch-number">Branch</span><ng-container *ngIf="currency === 'CAD'">,&nbsp;
-    <span class="institution-number">Institution</span></ng-container>&nbsp;&&nbsp;
-    <span class="account-number">Account</span>&nbsp;
+    <span class="branch-number">
+      Branch
+    </span>
+    <ng-container *ngIf="currency === 'CAD'">
+      ,&nbsp;
+      <span class="institution-number">
+        Institution
+      </span>
+    </ng-container>
+    &nbsp;&&nbsp;
+    <span class="account-number">
+      Account
+    </span>
+    &nbsp;
     numbers on a Cheque
   </fs-label>
-
   <ng-container [ngSwitch]="currency">
     <ng-container *ngSwitchCase="'CAD'">
       <ng-container *ngIf="!readonly">
-        <mat-form-field class="branch-number">
+        <mat-form-field class="branch-number form-field-s">
+          <mat-label>
+            {{ branchCadLabel }}
+          </mat-label>
           <input
             #branchEl
             matInput
-            [placeholder]="branchCadLabel"
             [ngModel]="_bankAccount.branch"
             [fsFormFunction]="validateBranch"
             name="branch"
             required>
-          <mat-hint>Also known as "Transit Number"</mat-hint>
+          <mat-hint>
+            Also known as "Transit Number"
+          </mat-hint>
         </mat-form-field>
-
         <mat-form-field class="institution-number">
+          <mat-label>
+            {{ institutionLabel }}
+          </mat-label>
           <input
             #institutionEl
             matInput
-            [placeholder]="institutionLabel"
             [ngModel]="_bankAccount.institution"
             [fsFormFunction]="validateInstitution"
             name="institution"
             required>
         </mat-form-field>
       </ng-container>
-
       <mat-form-field class="account-number">
+        <mat-label>
+          {{ accountCadLabel }}
+        </mat-label>
         <input
           #accountEl
           matInput
-          [placeholder]="accountCadLabel"
           [ngModel]="_bankAccount.account"
           [fsFormFunction]="validateAccount"
           [disabled]="readonly"
@@ -57,26 +72,28 @@
           required>
       </mat-form-field>
     </ng-container>
-
     <ng-container *ngSwitchCase="'USD'">
       <ng-container *ngIf="!readonly">
         <mat-form-field class="branch-number">
+          <mat-label>
+            {{ branchUsdLabel }}
+          </mat-label>
           <input
             #branchEl
             matInput
-            [placeholder]="branchUsdLabel"
             [ngModel]="_bankAccount.branch"
             [fsFormFunction]="validateBranch"
             name="branch"
             required>
         </mat-form-field>
       </ng-container>
-
       <mat-form-field class="account-number">
+        <mat-label>
+          {{ accountUsdLabel }}
+        </mat-label>
         <input
           #accountEl
           matInput
-          [placeholder]="accountUsdLabel"
           [ngModel]="_bankAccount.account"
           [fsFormFunction]="validateAccount"
           [disabled]="readonly"
@@ -85,20 +102,23 @@
       </mat-form-field>
     </ng-container>
   </ng-container>
-
   <mat-form-field *ngIf="showAccountType && accountTypes?.length">
-    <mat-label>{{ accountTypeLabel }}</mat-label>
-    <mat-select [(ngModel)]="_bankAccount.accountType"
-                [disabled]="readonly"
-                (ngModelChange)="valueChanged()"
-                name="account-type"
-                required>
-      <mat-option *ngFor="let type of accountTypes" [value]="type.value">
+    <mat-label>
+      {{ accountTypeLabel }}
+    </mat-label>
+    <mat-select
+        [(ngModel)]="_bankAccount.accountType"
+        [disabled]="readonly"
+        (ngModelChange)="valueChanged()"
+        name="account-type"
+        required>
+      <mat-option
+          *ngFor="let type of accountTypes"
+          [value]="type.value">
         {{ type.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-
   <ng-container>
     <fs-address
       [(address)]="_bankAccount.address"
