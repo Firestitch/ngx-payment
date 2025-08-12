@@ -138,6 +138,7 @@ implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
                 number: result.details.card.last4,
                 expiryMonth: result.details.card.expMonth,
                 expiryYear: result.details.card.expYear,
+                type: result.details.card.brand.toLowerCase(),
               },
               address: {
                 zip: result.details.billing.postalCode,
