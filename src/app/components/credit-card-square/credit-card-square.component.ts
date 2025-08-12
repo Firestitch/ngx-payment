@@ -207,11 +207,15 @@ implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
       .getPropertyValue('--mdc-outlined-text-field-label-text-color')
       .trim();
 
+    const borderColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--mdc-outlined-text-field-outline-color')
+      .trim();
+
     const errorColor = '#f44336';
 
     return {
       '.input-container': {
-        borderColor: '#9E9E9E',
+        borderColor: borderColor,
         borderRadius: '4px',
       },
       '.input-container.is-focus': {
