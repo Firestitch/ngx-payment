@@ -133,8 +133,8 @@ implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
         switchMap((result: any) => {
           if (result.status === 'OK') {
             const paymentMethodCreditCard: PaymentMethodCreditCard = {
+              token: result.token,
               creditCard: {
-                token: result.token,
                 number: result.details.card.last4,
                 expiryMonth: result.details.card.expMonth,
                 expiryYear: result.details.card.expYear,

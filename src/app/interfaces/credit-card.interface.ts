@@ -6,6 +6,7 @@ import { FsAddress } from '@firestitch/address';
 // automatically removing first zero digits
 
 export interface PaymentMethodCreditCard {
+  token?: string;
   address?: FsAddress;
   creditCard?: CreditCard;
 }
@@ -17,7 +18,6 @@ export interface CreditCard {
   expiryYear?: string;
   cvv?: string;
   type?: string;
-  token?: string;
 }
 
 export interface CreditCardFieldConfig {
