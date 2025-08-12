@@ -219,7 +219,6 @@ implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
     const placeholderColor = this._convertToHex('--mdc-outlined-text-field-label-text-color');
     const borderColor = this._convertToHex('--mdc-outlined-text-field-outline-color');
     const errorColor = '#f44336';
-    debugger;
 
     return {
       '.input-container': {
