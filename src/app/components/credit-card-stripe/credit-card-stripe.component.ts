@@ -3,11 +3,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Inject,
+  inject,
   Input,
   OnChanges,
   OnInit,
-  Optional,
   Output,
   SimpleChanges,
   ViewChild,
@@ -23,7 +22,8 @@ import { switchMap } from 'rxjs/operators';
 
 import { FS_PAYMENT_CONFIG } from '../../injectors';
 import {
-  CreditCard, CreditCardConfig, FsPaymentConfig, PaymentMethodCreditCard,
+  CreditCard, CreditCardConfig,
+  PaymentMethodCreditCard,
 } from '../../interfaces';
 
 //declare let Stripe; // : stripe.StripeStatic;
@@ -67,12 +67,9 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
   private _stripe;//: stripe.Stripe;
   private _card;//: stripe.elements.Element;
 
-
-  constructor(
-    @Optional() private _form: NgForm,
-    @Inject(FS_PAYMENT_CONFIG) private _paymentConfig: FsPaymentConfig,
-    private _cdRef: ChangeDetectorRef,
-  ) {}
+  private _form = inject(NgForm);
+  private _paymentConfig = inject(FS_PAYMENT_CONFIG);
+  private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit() {
     this._initProvider();
@@ -139,7 +136,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
       .map((f) => f.replace(/["']/g, ''))
       .find(() => true);
 
-    this._stripe = (window as any).Stripe(this._paymentConfig.stripe?.publishableKey);
+    this._stripe = (window as any).Stripe(this._paymentConfig?.stripe?.publishableKey);
 
     const cssUrl = new URL(`https://fonts.googleapis.com/css2?family=${fontFamily}&display=swap`);
     const elements = this._stripe.elements({ 
@@ -190,7 +187,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
         switchMap(() => {
           return this.setupIntents ? 
             this.setupIntents() : 
-            this._paymentConfig.stripe.setupIntents();
+            this._paymentConfig?.stripe?.setupIntents();
         }),        
       )
       .subscribe(({ clientSecret }) => {

@@ -1,4 +1,5 @@
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { FsAddress } from '@firestitch/address';
 
 // NOTE: fields which has '0' as a first number can't be integer. Any numeric types of variables
@@ -16,6 +17,7 @@ export interface CreditCard {
   expiryYear?: string;
   cvv?: string;
   type?: string;
+  token?: string;
 }
 
 export interface CreditCardFieldConfig {

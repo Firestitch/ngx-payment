@@ -1,18 +1,20 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
+
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
 import { CreditCard, CreditCardConfig, FsCreditCardStripeComponent, Provider } from '@firestitch/package';
 
 import { tap } from 'rxjs/operators';
 
+
 @Component({
-  selector: 'app-credit-card',
-  templateUrl: './credit-card.component.html',
-  styleUrls: ['./credit-card.component.scss'],
+  selector: 'app-stripe-credit-card',
+  templateUrl: './stripe-credit-card.component.html',
+  styleUrls: ['./stripe-credit-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreditCardComponent {
+export class StripeCreditCardComponent {
 
   @ViewChild(FsCreditCardStripeComponent)
   public stripe: FsCreditCardStripeComponent;

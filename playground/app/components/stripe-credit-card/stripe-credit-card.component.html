@@ -1,0 +1,15 @@
+<form
+    fsForm
+    [submit]="submit">
+  <fs-credit-card-stripe
+    (changed)="changed($event)"
+    [config]="creditCardConfig"
+    [creditCard]="creditCard">
+  </fs-credit-card-stripe>
+  <button
+      mat-flat-button
+      color="primary"
+      type="submit">
+    Submit
+  </button>
+</form>

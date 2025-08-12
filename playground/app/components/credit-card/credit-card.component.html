@@ -1,5 +1,6 @@
-
-<h3>Generic</h3>
+<h3>
+  Generic
+</h3>
 <form fsForm>
   <fs-credit-card
     (changed)="changed($event)"
@@ -7,16 +8,9 @@
     [creditCard]="creditCard"
     [address]="address">
   </fs-credit-card>
-  <button mat-raised-button>Submit</button>
-</form>
-
-
-<h3>Stripe</h3>
-<form fsForm [submit]="submitStripe">
-  <fs-credit-card-stripe
-    (changed)="changed($event)"
-    [config]="creditCardConfig"
-    [creditCard]="creditCard">
-  </fs-credit-card-stripe>
-  <button mat-raised-button>Submit</button>
+  <button
+      mat-flat-button
+      color="primary">
+    Submit
+  </button>
 </form>

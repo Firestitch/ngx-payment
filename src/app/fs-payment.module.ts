@@ -9,15 +9,16 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { FsAddressModule } from '@firestitch/address';
 import { FsDateModule } from '@firestitch/date';
+import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsFormModule } from '@firestitch/form';
 import { FsLabelModule } from '@firestitch/label';
 import { FsMaskModule } from '@firestitch/mask';
 
-import { FsDatePickerModule } from '@firestitch/datepicker';
 import {
   FsBankAccountComponent, FsCreditCardComponent,
+  FsCreditCardSquareComponent,
   FsCreditCardStripeComponent,
-  PaymentMethodBankComponent, PaymentMethodCreditCardComponent
+  PaymentMethodBankComponent, PaymentMethodCreditCardComponent,
 } from './components';
 
 
@@ -37,6 +38,7 @@ import {
     FsDatePickerModule,
     FsDateModule,
     FsMaskModule,
+    FsCreditCardSquareComponent,
   ],
   exports: [
     FsCreditCardComponent,
@@ -44,6 +46,7 @@ import {
     PaymentMethodBankComponent,
     PaymentMethodCreditCardComponent,
     FsCreditCardStripeComponent,
+    FsCreditCardSquareComponent,
   ],
   declarations: [
     FsCreditCardComponent,
@@ -54,9 +57,9 @@ import {
   ],
 })
 export class FsPaymentModule {
-  static forRoot(): ModuleWithProviders<FsPaymentModule> {
+  public static forRoot(): ModuleWithProviders<FsPaymentModule> {
     return {
-      ngModule: FsPaymentModule
+      ngModule: FsPaymentModule,
     };
   }
 }

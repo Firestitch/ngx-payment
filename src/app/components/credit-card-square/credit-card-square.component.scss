@@ -1,0 +1,11 @@
+:host {
+  ::ng-deep {
+    .sq-card-iframe-container {
+      padding: 3px 0;
+    }
+
+    .sq-card-message {
+      margin: 4px 0 10px !important;
+    }
+  }
+}

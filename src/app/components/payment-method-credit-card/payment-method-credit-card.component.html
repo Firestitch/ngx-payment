@@ -1,12 +1,20 @@
 <div class="row">
-  <img [src]="cardImages[type] || '/assets/payment/cards/generic.svg'" [alt]="type || 'generic'" class="image">
+  <img
+    [src]="cardImages[type] || '/assets/payment/cards/generic.svg'"
+    [alt]="type || 'generic'"
+    class="image">
   <div>
     <div class="number">
-      <span class="asterisk">····</span>{{ formattedNumber }}
+      <span class="asterisk">
+        ····
+      </span>
+      {{ formattedNumber }}
     </div>
-    <div class="expiry small" *ngIf="expiryDate" [ngClass]="{ expired: expired }">
-      {{expired ? 'Expired' : 'Expires'}} {{ expiryDate | fsDateFormat: 'MM\'/\'yy' }}
+    <div
+        class="expiry small"
+        *ngIf="expiryDate"
+        [ngClass]="{ expired: expired }">
+      {{ expired ? 'Expired' : 'Expires' }}       {{ expiryDate | fsDateFormat: 'MM\'/\'yy' }}
     </div>
   </div>
 </div>
-

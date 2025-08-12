@@ -2,20 +2,20 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
-import { CreditCard, CreditCardConfig, FsCreditCardStripeComponent, Provider } from '@firestitch/package';
+import { CreditCard, CreditCardConfig, FsCreditCardSquareComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
 
 import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-credit-card',
-  templateUrl: './credit-card.component.html',
-  styleUrls: ['./credit-card.component.scss'],
+  selector: 'app-square-credit-card',
+  templateUrl: './square-credit-card.component.html',
+  styleUrls: ['./square-credit-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreditCardComponent {
+export class SquareCreditCardComponent {
 
-  @ViewChild(FsCreditCardStripeComponent)
-  public stripe: FsCreditCardStripeComponent;
+  @ViewChild(FsCreditCardSquareComponent)
+  public square: FsCreditCardSquareComponent;
 
   public config = {};
   public Provider = Provider;
@@ -41,10 +41,10 @@ export class CreditCardComponent {
   }
 
   public submit = () => {
-    return this.stripe.createToken()
+    return this.square.createToken()
       .pipe(
-        tap((token) => {
-          this._message.info(token);
+        tap((paymentMethodCreditCard: PaymentMethodCreditCard) => {
+          this._message.info(`Token: ${paymentMethodCreditCard.creditCard.token}`);
         }),
       );
   };
