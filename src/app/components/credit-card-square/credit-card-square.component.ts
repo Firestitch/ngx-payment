@@ -198,20 +198,28 @@ implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
       });
   }
 
+  private _convertToHex(variable) {
+    const color = getComputedStyle(document.documentElement)
+      .getPropertyValue(variable)
+      .trim();
+
+    if (color.startsWith('#')) {
+      return color;
+    }
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = color;
+    
+    return ctx.fillStyle; 
+  }
+
   public get style() {
-    const primaryColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--mdc-outlined-text-field-focus-outline-color')
-      .trim();
-
-    const placeholderColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--mdc-outlined-text-field-label-text-color')
-      .trim();
-
-    const borderColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--mdc-outlined-text-field-outline-color')
-      .trim();
-
+    const primaryColor = this._convertToHex('--mdc-outlined-text-field-focus-outline-color');
+    const placeholderColor = this._convertToHex('--mdc-outlined-text-field-label-text-color');
+    const borderColor = this._convertToHex('--mdc-outlined-text-field-outline-color');
     const errorColor = '#f44336';
+    debugger;
 
     return {
       '.input-container': {
