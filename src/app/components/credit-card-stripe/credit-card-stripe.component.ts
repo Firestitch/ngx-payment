@@ -92,7 +92,6 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
 
   public registerOnTouched(fn: any): void {
     this._onTouched = fn;
-    this._form.dirty();
   }
 
   public setDisabledState?(isDisabled: boolean): void {
@@ -217,6 +216,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
       this.cardErrors = event.error?.message;
       this._onTouched();
       this._onChange(this.paymentMethodCreditCard);
+      this._form.validate();
       this._cdRef.markForCheck();
     });
     
