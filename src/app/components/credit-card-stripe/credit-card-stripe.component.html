@@ -1,11 +1,13 @@
-
 <mat-form-field [floatLabel]="'always'">
-  <div #cardElement class="card-holder"></div>
-  <input 
-    matInput 
-    #dummyInput 
+  <div
+    #cardElement
+    class="card-holder">
+  </div>
+  <input
+    matInput
+    #dummyInput
     name="cardInput"
-    class="dummy-input" 
-    [(ngModel)]="card" 
-    [validate]="validate">
+    class="dummy-input"
+    [validate]="fieldValidator"
+    [(ngModel)]="card">
 </mat-form-field>

@@ -41,7 +41,7 @@ export class SquareCreditCardComponent {
   }
 
   public submit = () => {
-    return this.square.createToken()
+    return this.square.createCard()
       .pipe(
         tap((paymentMethodCreditCard: PaymentMethodCreditCard) => {
           this._message.info(`Token: ${paymentMethodCreditCard.token}`);

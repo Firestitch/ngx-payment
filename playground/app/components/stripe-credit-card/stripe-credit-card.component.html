@@ -4,7 +4,8 @@
   <fs-credit-card-stripe
     (changed)="changed($event)"
     [config]="creditCardConfig"
-    [creditCard]="creditCard">
+    [(ngModel)]="paymentMethodCreditCard"
+    name="paymentMethodCreditCard">
   </fs-credit-card-stripe>
   <button
       mat-flat-button

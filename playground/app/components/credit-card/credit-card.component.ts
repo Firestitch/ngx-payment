@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
-import { CreditCard, CreditCardConfig, FsCreditCardStripeComponent, Provider } from '@firestitch/package';
+import { CreditCard, CreditCardConfig, Provider } from '@firestitch/package';
 
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-credit-card',
@@ -13,9 +12,6 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreditCardComponent {
-
-  @ViewChild(FsCreditCardStripeComponent)
-  public stripe: FsCreditCardStripeComponent;
 
   public config = {};
   public Provider = Provider;
@@ -39,15 +35,6 @@ export class CreditCardComponent {
   public changed(event) {
     console.log(event);
   }
-
-  public submit = () => {
-    return this.stripe.createToken()
-      .pipe(
-        tap((token) => {
-          this._message.info(token);
-        }),
-      );
-  };
 
   public save() {
     this._message.success('Submitted');

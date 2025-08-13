@@ -11,18 +11,19 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ControlContainer, NgForm } from '@angular/forms';
+import { AbstractControl, ControlContainer, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm, ValidationErrors, Validator } from '@angular/forms';
 
 
 import { IFsAddressConfig } from '@firestitch/address';
 import { loadJs } from '@firestitch/common';
+import { FsFormDirective } from '@firestitch/form';
 
-import { from, Observable, of, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { FS_PAYMENT_CONFIG } from '../../injectors';
 import {
-  CreditCard, CreditCardConfig,
+  CreditCardConfig,
   PaymentMethodCreditCard,
 } from '../../interfaces';
 
@@ -35,8 +36,20 @@ import {
   styleUrls: ['./credit-card-stripe.component.scss'],
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   changeDetection: ChangeDetectionStrategy.OnPush,  
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: FsCreditCardStripeComponent,
+      multi: true,
+    },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: FsCreditCardStripeComponent,
+      multi: true,
+    },
+  ],
 })
-export class FsCreditCardStripeComponent implements OnInit, OnChanges {
+export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
 
   @ViewChild('dummyInput', { static: true }) 
   public dummyInput: ElementRef;
@@ -45,7 +58,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
   public cardElement: ElementRef;
 
   @Input() public config: CreditCardConfig = {};
-  @Input() public creditCard: CreditCard = {};
+  
   @Input() public setupIntents: () => Observable<{ clientSecret: string }>;
 
   @Input()
@@ -63,34 +76,58 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
   public initailized = false;
   public cardErrors = '';
   public card;
+  public paymentMethodCreditCard: PaymentMethodCreditCard = {};
 
   private _stripe;//: stripe.Stripe;
   private _card;//: stripe.elements.Element;
-
-  private _form = inject(NgForm);
+  private _form = inject(FsFormDirective);
   private _paymentConfig = inject(FS_PAYMENT_CONFIG);
   private _cdRef = inject(ChangeDetectorRef);
+  private _onChange: any;
+  private _onTouched: any;  
 
   public ngOnInit() {
     this._initProvider();
   }
 
-  public validate = (() => {
-    return of(null)
-      .pipe(
-        switchMap(() => {
-          if(this.cardEl.classList.contains('StripeElement--empty')) {
-            return throwError('Card number is required');
-          }
+  public registerOnTouched(fn: any): void {
+    this._onTouched = fn;
+    this._form.dirty();
+  }
 
-          if(this.cardErrors) {
-            return throwError(this.cardErrors);
-          }
+  public setDisabledState?(isDisabled: boolean): void {
+    //
+  }
 
-          return of(null);
-        }),
-      );
-  });
+  public writeValue(paymentMethodCreditCard: PaymentMethodCreditCard): void {
+    this.paymentMethodCreditCard = paymentMethodCreditCard;
+  }
+  
+  public registerOnChange(fn: any): void {
+    this._onChange = fn;
+  }
+
+  public registerOnValidatorChange(fn: () => void): void {
+    //
+  }
+
+  public fieldValidator = () => {
+    if(this.validate(null)) {
+      throw new Error(Object.values(this.validate(null)).join(', '));
+    }
+  };
+
+  public validate(control: AbstractControl): ValidationErrors | null {
+    if(this.cardEl.classList.contains('StripeElement--empty')) {
+      return { required: 'Card number is required' };
+    } else if(this.cardEl.classList.contains('StripeElement--invalid')) {
+      return { invalid: 'Card number is invalid' };
+    } else if(this.cardErrors) {
+      return { card: this.cardErrors };
+    }
+
+    return null;
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.creditCardConfig) {
@@ -111,22 +148,34 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
     return this.cardElement.nativeElement;
   }
 
-  public _changed() {
-    this.changed.emit({ creditCard: this.creditCard });
-  }
+  public createCard(): Observable<PaymentMethodCreditCard> {
+    return from(this._stripe.createToken(this._card))
+      .pipe(
+        map(({ token }) => {
+          this.paymentMethodCreditCard = {
+            ...this.paymentMethodCreditCard,
+            token: token.card.id,
+            creditCard: {
+              number: token.card.last4,
+              expiryMonth: token.card.exp_month,
+              expiryYear: token.card.exp_year,
+              type: token.card.brand.toLowerCase(),
+              name: token.card.name,
+            },
+            address: {
+              zip: token.card.address_zip,
+            },
+          };
 
-  public createToken(): Observable<any> {
-    return from(this._stripe.createToken(this._card));
+          this._onChange(this.paymentMethodCreditCard);
+
+          return this.paymentMethodCreditCard;
+        }),
+      );
   }
 
   public createSource(): Observable<any> {
     return from(this._stripe.createSource(this._card));
-  }
-
-  public updateAndValidate(message) {
-    this.cardErrors = message;
-    this._form.controls['cardInput'].markAsDirty();
-    this._form.controls['cardInput'].updateValueAndValidity();
   }
 
   private _initStripe(clientSecret): void {
@@ -165,16 +214,12 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges {
     );
 
     this._card.on('blur', () => {
-      let message = '';
-      if(this.cardEl.classList.contains('StripeElement--invalid')) {
-        message = 'The card is invalid';
-      }
-      
-      this.updateAndValidate(message);
+      this._form.validate();
     });
 
     this._card.on('change', (event) => {
-      this.updateAndValidate(event.error?.message);
+      this._onTouched();
+      this._onChange(this.paymentMethodCreditCard);
       this._cdRef.markForCheck();
     });
     

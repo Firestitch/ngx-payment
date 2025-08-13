@@ -1,13 +1,9 @@
 import {
-  ApplicationRef,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
-  EnvironmentInjector,
   EventEmitter,
   inject,
-  Injector,
   OnDestroy,
   OnInit,
   Output,
@@ -68,25 +64,12 @@ implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
   private _portalOutlet: DomPortalOutlet | null = null;
   private _paymentConfig = inject(FS_PAYMENT_CONFIG);
   private _cdRef = inject(ChangeDetectorRef);
-  private _injector = inject(Injector);
-  private _applicationRef = inject(ApplicationRef);
-  private _environmentInjector = inject(EnvironmentInjector);
-  private _componentFactoryResolver = inject(ComponentFactoryResolver);
   private _form = inject(FsFormDirective);
   private _onChange: any;
   private _onTouched: any;  
 
   public ngOnInit() {
     this._initProvider();
-    // this._portalOutlet = new DomPortalOutlet(
-    //   document.body,
-    //   this._componentFactoryResolver,
-    //   this._applicationRef,
-    //   this._environmentInjector,
-    // );
-
-    // const portal = new ComponentPortal(FsHelcimFormComponent);
-    // const componentRef = this._portalOutlet.attach(portal); // Attach to DomPortalOutlet
   }
 
   public registerOnTouched(fn: any): void {
@@ -127,7 +110,7 @@ implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
     return null;
   }
 
-  public createToken(): Observable<PaymentMethodCreditCard> {
+  public createCard(): Observable<PaymentMethodCreditCard> {
     return from(this.card.tokenize())
       .pipe(
         switchMap((result: any) => {

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
-import { CreditCard, CreditCardConfig, FsCreditCardStripeComponent, Provider } from '@firestitch/package';
+import { CreditCardConfig, FsCreditCardStripeComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
 
 import { tap } from 'rxjs/operators';
 
@@ -26,9 +26,7 @@ export class StripeCreditCardComponent {
     appearance: 'outline',
   };
 
-  public creditCard: CreditCard = {
-    name: 'Bob Smith',
-    number: '',
+  public paymentMethodCreditCard: PaymentMethodCreditCard = {
   };
 
   public address: FsAddress = { country: Country.Canada };
@@ -43,10 +41,10 @@ export class StripeCreditCardComponent {
   }
 
   public submit = () => {
-    return this.stripe.createToken()
+    return this.stripe.createCard()
       .pipe(
-        tap((token) => {
-          this._message.info(token);
+        tap((paymentMethodCreditCard: PaymentMethodCreditCard) => {
+          this._message.info(`Token: ${paymentMethodCreditCard.token}`);
         }),
       );
   };
