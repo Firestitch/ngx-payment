@@ -214,6 +214,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
     });
 
     this._card.on('change', (event) => {
+      this.cardErrors = event.error?.message;
       this._onTouched();
       this._onChange(this.paymentMethodCreditCard);
       this._cdRef.markForCheck();
