@@ -148,22 +148,22 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
     return this.cardElement.nativeElement;
   }
 
-  public createCard(): Observable<PaymentMethodCreditCard> {
-    return from(this._stripe.createToken(this._card))
+  public createCard(): Observable<any> {
+    return from(this._stripe.createSource(this._card))
       .pipe(
-        map(({ token }) => {
+        map(({ source }) => {
           this.paymentMethodCreditCard = {
             ...this.paymentMethodCreditCard,
-            token: token.card.id,
+            token: source.id,
             creditCard: {
-              number: token.card.last4,
-              expiryMonth: token.card.exp_month,
-              expiryYear: token.card.exp_year,
-              type: token.card.brand.toLowerCase(),
-              name: token.card.name,
+              number: source.card.last4,
+              expiryMonth: source.card.exp_month,
+              expiryYear: source.card.exp_year,
+              type: source.card.brand.toLowerCase(),
+              name: source.card.name,
             },
             address: {
-              zip: token.card.address_zip,
+              zip: source.owner.address.postal_code,
             },
           };
 
@@ -172,10 +172,6 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
           return this.paymentMethodCreditCard;
         }),
       );
-  }
-
-  public createSource(): Observable<any> {
-    return from(this._stripe.createSource(this._card));
   }
 
   private _initStripe(clientSecret): void {
