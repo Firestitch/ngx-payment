@@ -162,7 +162,7 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
               name: source.card.name,
             },
             address: {
-              zip: source.owner.address.postal_code,
+              zip: source.owner?.address?.postal_code,
             },
           };
 
