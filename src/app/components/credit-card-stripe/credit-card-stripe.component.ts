@@ -18,8 +18,8 @@ import { IFsAddressConfig } from '@firestitch/address';
 import { loadJs } from '@firestitch/common';
 import { FsFormDirective } from '@firestitch/form';
 
-import { from, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { from, Observable, of, throwError } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { FS_PAYMENT_CONFIG } from '../../injectors';
 import {
@@ -57,7 +57,14 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
   @ViewChild('cardElement', { static: true }) 
   public cardElement: ElementRef;
 
+  @ViewChild('expressPaymentElement', { static: true }) 
+  public expressPaymentElement: ElementRef;
+
   @Input() public config: CreditCardConfig = {};
+  
+  @Input() public applePayConfig: { buttonType?: string };
+
+  @Input() public googlePayConfig: { buttonType?: string };
   
   @Input() public setupIntents: () => Observable<{ clientSecret: string }>;
 
@@ -72,10 +79,13 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
     };
 
   @Output() public changed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
+  @Output() public expressPaymentProcessed: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
 
   public initailized = false;
   public cardErrors = '';
   public card;
+  public confirm;
+  public confirm1;
   public paymentMethodCreditCard: PaymentMethodCreditCard = {};
 
   private _stripe;//: stripe.Stripe;
@@ -147,8 +157,9 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
     return this.cardElement.nativeElement;
   }
 
-  public createCard(): Observable<any> {
-    return from(this._stripe.createSource(this._card))
+  public createCard(): Observable<PaymentMethodCreditCard> {
+    return from(this._stripe
+      .createSource(this._card))
       .pipe(
         map(({ source }) => {
           this.paymentMethodCreditCard = {
@@ -174,6 +185,11 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
   }
 
   private _initStripe(clientSecret): void {
+    this._initCreditCard(clientSecret);
+    this._initExpressCheckout(clientSecret);
+  }
+
+  private _initCreditCard(clientSecret): void {
     const inputStyle = getComputedStyle(this.dummyInput.nativeElement);
     const fontFamily = inputStyle.fontFamily.split(',')
       .map((f) => f.trim())
@@ -221,6 +237,72 @@ export class FsCreditCardStripeComponent implements OnInit, OnChanges, ControlVa
     });
     
     this._card.mount(this.cardEl);
+
+    this._initExpressCheckout(clientSecret);
+  }
+
+  private _initExpressCheckout(clientSecret): void {
+    if(!this.applePayConfig && !this.googlePayConfig) {
+      return;
+    }
+
+    const elements = this._stripe.elements({
+      clientSecret: clientSecret,
+      locale: 'en',
+    });
+
+    const expressCheckoutElement = elements.create(
+      'expressCheckout',
+      {
+        buttonType: {
+          ...(
+            this.applePayConfig ? { applePay: this.applePayConfig?.buttonType || 'plain' } : {}
+          ),
+          ...(
+            this.googlePayConfig ? { googlePay: this.googlePayConfig?.buttonType || 'plain' } : {}
+          ),
+        },
+      },
+    );
+
+    expressCheckoutElement.mount(this.expressPaymentElement.nativeElement);
+
+    expressCheckoutElement.on('confirm', ({ billingDetails, expressPaymentType }) => {
+      this.paymentMethodCreditCard = {
+        ...this.paymentMethodCreditCard,
+        creditCard: {
+          ...this.paymentMethodCreditCard.creditCard,
+          name: billingDetails.name,
+          type: expressPaymentType.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase()),
+        },
+      };
+
+      from(this._stripe.confirmSetup({
+        elements,
+        clientSecret,
+        redirect: 'if_required', // Only redirect if necessary
+      }),
+      )
+        .pipe(
+          switchMap(({ error, setupIntent }) => {
+            if(error) {
+              return throwError(() => new Error(error));
+            }
+
+            if (setupIntent?.status !== 'succeeded') {
+              return throwError(() => new Error('Setup intent status is not succeeded'));
+            }
+
+            return of({ setupIntent });
+          }),
+          tap(({ setupIntent }) => {
+            this.paymentMethodCreditCard.token = setupIntent.payment_method;
+            this._onChange(this.paymentMethodCreditCard);
+            this.expressPaymentProcessed.emit(this.paymentMethodCreditCard);
+          }),
+        )
+        .subscribe();
+    });
   }
 
   private _initProvider(): void {
