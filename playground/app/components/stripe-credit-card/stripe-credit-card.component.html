@@ -25,6 +25,7 @@
 <fs-stripe-express-checkout
   [applePayConfig]="{ buttonType: 'plain' }"
   [googlePayConfig]="{ buttonType: 'plain' }"
+  [disabled]="false"
   (ready)="expressCheckoutSupported = $event.applePay || $event.googlePay"
   (confirm)="expressPaymentMethodCreditCard=$event">
 </fs-stripe-express-checkout>

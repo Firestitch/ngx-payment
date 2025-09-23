@@ -39,6 +39,8 @@ export class FsStripeExpressCheckoutComponent implements OnInit {
   
   @Input() public setupIntents: () => Observable<{ clientSecret: string }>;
 
+  @Input() public disabled = false;
+
   @Output() public confirm: EventEmitter<PaymentMethodCreditCard> = new EventEmitter();
   @Output() public ready: EventEmitter<{
     amazonPay?: boolean;
