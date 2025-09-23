@@ -1,0 +1,27 @@
+.dummy-input {
+  display: none !important;
+}
+
+mat-form-field {
+  width: 100%;
+
+  ::ng-deep {
+    .mat-mdc-form-field-infix {
+      display: flex;
+    }
+  }
+}
+
+.card-holder {
+  align-items: center;
+  display: inline-grid;
+  flex-grow: 1;
+}
+
+
+.or-separator {
+  margin: 10px 0;
+  text-align: center;
+  font-size: 90%;
+  color: #777777;
+}

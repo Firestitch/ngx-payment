@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
-import { CreditCard, CreditCardConfig, FsCreditCardSquareComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
+import { CreditCard, CreditCardConfig, FsSquareCreditCardComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
 
 import { tap } from 'rxjs/operators';
 
@@ -14,8 +14,8 @@ import { tap } from 'rxjs/operators';
 })
 export class SquareCreditCardComponent {
 
-  @ViewChild(FsCreditCardSquareComponent)
-  public square: FsCreditCardSquareComponent;
+  @ViewChild(FsSquareCreditCardComponent)
+  public square: FsSquareCreditCardComponent;
 
   public config = {};
   public Provider = Provider;

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
-import { CreditCardConfig, FsCreditCardStripeComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
+import { CreditCardConfig, FsStripeCreditCardComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
 
 import { tap } from 'rxjs/operators';
 
@@ -16,18 +16,19 @@ import { tap } from 'rxjs/operators';
 })
 export class StripeCreditCardComponent {
 
-  @ViewChild(FsCreditCardStripeComponent)
-  public stripe: FsCreditCardStripeComponent;
+  @ViewChild(FsStripeCreditCardComponent)
+  public stripe: FsStripeCreditCardComponent;
 
   public config = {};
+  public expressPaymentMethodCreditCard: PaymentMethodCreditCard;
+  public expressCheckoutSupported = false;
   public Provider = Provider;
   public creditCardConfig: CreditCardConfig = {
     number: { readonly: false, hint: 'Hint!' },
     appearance: 'outline',
   };
 
-  public paymentMethodCreditCard: PaymentMethodCreditCard = {
-  };
+  public paymentMethodCreditCard: PaymentMethodCreditCard;
 
   public address: FsAddress = { country: Country.Canada };
 

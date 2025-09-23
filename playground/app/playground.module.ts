@@ -66,7 +66,7 @@ const routes: Routes = [
         stripe: {
           publishableKey: 'pk_test_Nt67M3jtxEMwQrjBeQBFtYMc',
           setupIntents: () => {
-            return of({ clientSecret: 'seti_1SAJ0o2eK62UbN9HQaQUsoKD_secret_T6W2Ad7VQN8odkq3kMbJjZd3dbngdZh' });
+            return of({ clientSecret: 'seti_1SATeg2eK62UbN9HHbHPPKAw_secret_T6h2TuXI0lvcc7o35Qb7AUFsJF3l8Md' });
           },
         },
         square: {

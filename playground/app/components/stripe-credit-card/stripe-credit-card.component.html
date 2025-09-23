@@ -1,13 +1,15 @@
 <form
     fsForm
     [submit]="submit">
-  <fs-credit-card-stripe
+  <fs-stripe-credit-card
     (changed)="changed($event)"
     [config]="creditCardConfig"
-    [applePayConfig]="{ buttonType: 'plain' }"
     [(ngModel)]="paymentMethodCreditCard"
     name="paymentMethodCreditCard">
-  </fs-credit-card-stripe>
+  </fs-stripe-credit-card>
+  <p>
+    {{ paymentMethodCreditCard | json }}
+  </p>
   <button
       mat-flat-button
       color="primary"
@@ -15,4 +17,15 @@
     Submit
   </button>
 </form>
-{{ paymentMethodCreditCard | json }}
+@if (expressCheckoutSupported) {
+  <p>
+    or
+  </p>
+}
+<fs-stripe-express-checkout
+  [applePayConfig]="{ buttonType: 'plain' }"
+  [googlePayConfig]="{ buttonType: 'plain' }"
+  (ready)="expressCheckoutSupported = $event.applePay || $event.googlePay"
+  (confirm)="expressPaymentMethodCreditCard=$event">
+</fs-stripe-express-checkout>
+{{ expressPaymentMethodCreditCard | json }}

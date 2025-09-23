@@ -1,11 +1,11 @@
 <form
     fsForm
     [submit]="submit">
-  <fs-credit-card-square
+  <fs-square-credit-card
     (changed)="changed($event)"
     [(ngModel)]="creditCard"
     name="creditCard">
-  </fs-credit-card-square>
+  </fs-square-credit-card>
   <button
       mat-flat-button
       color="primary"

@@ -25,9 +25,9 @@ import {
 
 
 @Component({
-  selector: 'fs-credit-card-square',
-  templateUrl: './credit-card-square.component.html',
-  styleUrls: ['./credit-card-square.component.scss'],
+  selector: 'fs-square-credit-card',
+  templateUrl: './square-credit-card.component.html',
+  styleUrls: ['./square-credit-card.component.scss'],
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
@@ -38,17 +38,17 @@ import {
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: FsCreditCardSquareComponent,
+      useExisting: FsSquareCreditCardComponent,
       multi: true,
     },
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: FsCreditCardSquareComponent,
+      useExisting: FsSquareCreditCardComponent,
       multi: true,
     },
   ],
 })
-export class FsCreditCardSquareComponent 
+export class FsSquareCreditCardComponent 
 implements OnInit, OnDestroy, Validator, ControlValueAccessor  {
 
   @ViewChild('cardContainer') 
