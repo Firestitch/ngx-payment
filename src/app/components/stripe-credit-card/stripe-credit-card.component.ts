@@ -15,7 +15,6 @@ import { AbstractControl, ControlContainer, ControlValueAccessor, NG_VALIDATORS,
 
 
 import { IFsAddressConfig } from '@firestitch/address';
-import { loadJs } from '@firestitch/common';
 import { FsFormDirective } from '@firestitch/form';
 
 import { from, Observable } from 'rxjs';
@@ -26,8 +25,7 @@ import {
   CreditCardConfig,
   PaymentMethodCreditCard,
 } from '../../interfaces';
-
-//declare let Stripe; // : stripe.StripeStatic;
+import { StripeService } from '../../services';
 
 
 @Component({
@@ -86,6 +84,7 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
   private _cdRef = inject(ChangeDetectorRef);
   private _onChange: any;
   private _onTouched: any;  
+  private _stripeService = inject(StripeService);
 
   public ngOnInit() {
     this._initProvider();
@@ -230,7 +229,7 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
   }
 
   private _initProvider(): void {
-    loadJs('https://js.stripe.com/v3/')
+    this._stripeService.init()
       .pipe(
         switchMap(() => {
           return this.setupIntents ? 

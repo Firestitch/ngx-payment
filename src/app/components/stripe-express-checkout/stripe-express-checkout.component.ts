@@ -11,8 +11,6 @@ import {
 } from '@angular/core';
 
 
-import { loadJs } from '@firestitch/common';
-
 import { from, Observable, of, throwError } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
@@ -20,6 +18,7 @@ import { FS_PAYMENT_CONFIG } from '../../injectors';
 import {
   PaymentMethodCreditCard,
 } from '../../interfaces';
+import { StripeService } from '../../services/stripe.service';
 
 
 @Component({
@@ -53,18 +52,19 @@ export class FsStripeExpressCheckoutComponent implements OnInit {
 
   public paymentMethodCreditCard: PaymentMethodCreditCard = {};
 
-  private _stripe;//: stripe.Stripe;
   private _paymentConfig = inject(FS_PAYMENT_CONFIG);
+  private _stripeService = inject(StripeService);
 
   public ngOnInit() {
     this._initProvider();
   }
 
   private _initExpressCheckout(clientSecret): void {
-    const elements = this._stripe.elements({ 
-      clientSecret: clientSecret,
-      locale: 'en',
-    });
+    const elements = this._stripeService.stripe
+      .elements({ 
+        clientSecret: clientSecret,
+        locale: 'en',
+      });
 
     const expressCheckoutElement = elements.create(
       'expressCheckout',
@@ -96,7 +96,7 @@ export class FsStripeExpressCheckoutComponent implements OnInit {
         },
       };
 
-      from(this._stripe.confirmSetup({
+      from(this._stripeService.stripe.confirmSetup({
         elements,
         clientSecret,
         redirect: 'if_required', // Only redirect if necessary
@@ -124,12 +124,8 @@ export class FsStripeExpressCheckoutComponent implements OnInit {
   }
 
   private _initProvider(): void {
-    loadJs('https://js.stripe.com/v3/')
+    this._stripeService.init()
       .pipe(
-        tap(() => {
-          this._stripe = (window as any).Stripe(this._paymentConfig?.stripe?.publishableKey);
-          console.log('stripe', this._stripe);
-        }),
         switchMap(() => {
           return this.setupIntents ? 
             this.setupIntents() : 
