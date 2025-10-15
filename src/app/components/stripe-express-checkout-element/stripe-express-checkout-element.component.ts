@@ -22,12 +22,12 @@ import { FsPaymentStripe } from '../../services/payment-stripe.service';
 
 
 @Component({
-  selector: 'fs-stripe-express-checkout',
-  templateUrl: './stripe-express-checkout.component.html',
-  styleUrls: ['./stripe-express-checkout.component.scss'],
+  selector: 'fs-stripe-express-checkout-element',
+  templateUrl: './stripe-express-checkout-element.component.html',
+  styleUrls: ['./stripe-express-checkout-element.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,  
 })
-export class FsStripeExpressCheckoutComponent implements OnInit {
+export class FsStripeExpressCheckoutElementComponent implements OnInit {
 
   @ViewChild('expressPaymentElement', { static: true }) 
   public expressPaymentElement: ElementRef;

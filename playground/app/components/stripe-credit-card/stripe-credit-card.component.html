@@ -22,11 +22,11 @@
     or
   </p>
 }
-<fs-stripe-express-checkout
+<fs-stripe-express-checkout-element
   [applePayConfig]="{ buttonType: 'plain' }"
   [googlePayConfig]="{ buttonType: 'plain' }"
   [disabled]="false"
   (ready)="expressCheckoutSupported = $event.applePay || $event.googlePay"
   (confirm)="expressPaymentMethodCreditCard=$event">
-</fs-stripe-express-checkout>
+</fs-stripe-express-checkout-element>
 {{ expressPaymentMethodCreditCard | json }}

@@ -18,7 +18,7 @@ import {
   FsBankAccountComponent, FsCreditCardComponent,
   FsSquareCreditCardComponent,
   FsStripeCreditCardComponent,
-  FsStripeExpressCheckoutComponent,
+  FsStripeExpressCheckoutElementComponent,
   PaymentMethodBankComponent, PaymentMethodCreditCardComponent,
 } from './components';
 
@@ -48,7 +48,7 @@ import {
     PaymentMethodCreditCardComponent,
     FsStripeCreditCardComponent,
     FsSquareCreditCardComponent,
-    FsStripeExpressCheckoutComponent,
+    FsStripeExpressCheckoutElementComponent,
   ],
   declarations: [
     FsCreditCardComponent,
@@ -56,7 +56,7 @@ import {
     PaymentMethodBankComponent,
     PaymentMethodCreditCardComponent,
     FsStripeCreditCardComponent,
-    FsStripeExpressCheckoutComponent,
+    FsStripeExpressCheckoutElementComponent,
   ],
 })
 export class FsPaymentModule {

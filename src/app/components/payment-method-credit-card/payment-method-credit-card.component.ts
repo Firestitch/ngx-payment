@@ -3,16 +3,16 @@ import {
   Component,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
 import { isNumeric } from '@firestitch/common';
 
 import { endOfMonth, isAfter } from 'date-fns';
 
-import { creditCardNumber } from '../../helpers/credit-card-number';
 import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 import { CreditCardType } from '../../enums/credit-card-type.enum';
+import { creditCardNumber } from '../../helpers/credit-card-number';
 
 
 @Component({
@@ -54,9 +54,9 @@ export class PaymentMethodCreditCardComponent implements OnChanges {
       this.expiryDate = null;
 
       if(isNumeric(this.expiryMonth) && isNumeric(this.expiryYear)) {
-        const expiryYear = Number(this.expiryYear)
+        const expiryYear = Number(this.expiryYear);
         const year = expiryYear < 2000 ? expiryYear + 2000 : expiryYear;
-        const month = Number(this.expiryMonth)
+        const month = Number(this.expiryMonth);
         this.expiryDate = new Date(year, month - 1);
       }
 
