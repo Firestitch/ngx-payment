@@ -1,7 +1,7 @@
 .express-checkout-element {
   overflow: hidden;
   
-  .disabled {
+  &.disabled {
     opacity: 0.5;
     pointer-events: none;
   }
