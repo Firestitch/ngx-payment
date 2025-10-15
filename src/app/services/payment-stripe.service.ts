@@ -11,7 +11,7 @@ import { FS_PAYMENT_CONFIG } from '../injectors/payment.injector';
 @Injectable({
   providedIn: 'root',
 })
-export class StripeService {
+export class FsPaymentStripe {
   
   private _stripe$ = new BehaviorSubject<any>(null);
   private _init$?: Observable<any>;

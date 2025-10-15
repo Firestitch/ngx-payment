@@ -18,7 +18,7 @@ import { FS_PAYMENT_CONFIG } from '../../injectors';
 import {
   PaymentMethodCreditCard,
 } from '../../interfaces';
-import { StripeService } from '../../services/stripe.service';
+import { FsPaymentStripe } from '../../services/payment-stripe.service';
 
 
 @Component({
@@ -53,7 +53,7 @@ export class FsStripeExpressCheckoutComponent implements OnInit {
   public paymentMethodCreditCard: PaymentMethodCreditCard = {};
 
   private _paymentConfig = inject(FS_PAYMENT_CONFIG);
-  private _stripeService = inject(StripeService);
+  private _stripeService = inject(FsPaymentStripe);
 
   public ngOnInit() {
     this._initProvider();

@@ -25,7 +25,7 @@ import {
   CreditCardConfig,
   PaymentMethodCreditCard,
 } from '../../interfaces';
-import { StripeService } from '../../services';
+import { FsPaymentStripe } from '../../services';
 
 
 @Component({
@@ -84,7 +84,7 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
   private _cdRef = inject(ChangeDetectorRef);
   private _onChange: any;
   private _onTouched: any;  
-  private _stripeService = inject(StripeService);
+  private _stripeService = inject(FsPaymentStripe);
 
   public ngOnInit() {
     this._initProvider();
