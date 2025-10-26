@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
@@ -23,6 +23,8 @@ import { MatButton } from '@angular/material/button';
     ],
 })
 export class CreditCardComponent {
+  private _message = inject(FsMessage);
+
 
   public config = {};
   public Provider = Provider;
@@ -37,11 +39,6 @@ export class CreditCardComponent {
   };
 
   public address: FsAddress = { country: Country.Canada };
-
-  constructor(
-    private _message: FsMessage,
-  ) {
-  }
 
   public changed(event) {
     console.log(event);

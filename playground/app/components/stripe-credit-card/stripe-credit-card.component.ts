@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 
 
 import { Country, FsAddress } from '@firestitch/address';
@@ -30,6 +30,8 @@ import { JsonPipe } from '@angular/common';
     ],
 })
 export class StripeCreditCardComponent {
+  private _message = inject(FsMessage);
+
 
   @ViewChild(FsStripeCreditCardComponent)
   public stripe: FsStripeCreditCardComponent;
@@ -46,11 +48,6 @@ export class StripeCreditCardComponent {
   public paymentMethodCreditCard: PaymentMethodCreditCard;
 
   public address: FsAddress = { country: Country.Canada };
-
-  constructor(
-    private _message: FsMessage,
-  ) {
-  }
 
   public changed(event) {
     console.log(event);

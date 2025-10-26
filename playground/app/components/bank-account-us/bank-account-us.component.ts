@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FsMessage } from '@firestitch/message';
 import { FormsModule } from '@angular/forms';
 import { FsFormModule } from '@firestitch/form';
@@ -13,11 +13,10 @@ import { MatButton } from '@angular/material/button';
     imports: [FormsModule, FsFormModule, FsBankAccountComponent, MatButton]
 })
 export class BankAccountUsComponent {
+  private message = inject(FsMessage);
+
 
   public config = {};
-
-  constructor(private message: FsMessage) {
-  }
 
   public changed(event) {
     console.log(event);

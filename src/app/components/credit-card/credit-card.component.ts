@@ -1,15 +1,4 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 
 import { FsAddress, IFsAddressConfig, FsAddressModule } from '@firestitch/address';
@@ -52,6 +41,8 @@ import { FsFormModule } from '@firestitch/form';
     ],
 })
 export class FsCreditCardComponent implements OnInit, OnChanges {
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @ViewChild('cardNumberEl', { static: true })
   public cardNumberEl: ElementRef;
@@ -104,10 +95,6 @@ export class FsCreditCardComponent implements OnInit, OnChanges {
     };
 
   private _cardNumberImask;
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-  ) {}
 
   public ngOnInit() {
     this.creditCardConfig = {

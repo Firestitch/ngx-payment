@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 
 import { Country, FsAddress } from '@firestitch/address';
 import { FsMessage } from '@firestitch/message';
@@ -24,6 +24,8 @@ import { MatButton } from '@angular/material/button';
     ],
 })
 export class SquareCreditCardComponent {
+  private _message = inject(FsMessage);
+
 
   @ViewChild(FsSquareCreditCardComponent)
   public square: FsSquareCreditCardComponent;
@@ -41,11 +43,6 @@ export class SquareCreditCardComponent {
   };
 
   public address: FsAddress = { country: Country.Canada };
-
-  constructor(
-    private _message: FsMessage,
-  ) {
-  }
 
   public changed(event) {
     console.log(event);
