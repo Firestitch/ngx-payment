@@ -1,25 +1,25 @@
 <div class="column">
   <div class="cheque">
-    <ng-container [ngSwitch]="currency">
-      <ng-container *ngSwitchCase="'CAD'">
+    @switch (currency) {
+      @case ('CAD') {
         <img src="/assets/payment/cheque-ca.svg">
-      </ng-container>
-      <ng-container *ngSwitchCase="'USD'">
+      }
+      @case ('USD') {
         <img src="/assets/payment/cheque-us.svg">
-      </ng-container>
-    </ng-container>
+      }
+    }
   </div>
   <fs-label>
     How to find your&nbsp;
     <span class="branch-number">
       Branch
     </span>
-    <ng-container *ngIf="currency === 'CAD'">
+    @if (currency === 'CAD') {
       ,&nbsp;
       <span class="institution-number">
         Institution
       </span>
-    </ng-container>
+    }
     &nbsp;&&nbsp;
     <span class="account-number">
       Account
@@ -27,9 +27,9 @@
     &nbsp;
     numbers on a Cheque
   </fs-label>
-  <ng-container [ngSwitch]="currency">
-    <ng-container *ngSwitchCase="'CAD'">
-      <ng-container *ngIf="!readonly">
+  @switch (currency) {
+    @case ('CAD') {
+      @if (!readonly) {
         <mat-form-field class="branch-number form-field-s">
           <mat-label>
             {{ branchCadLabel }}
@@ -57,7 +57,7 @@
             name="institution"
             required>
         </mat-form-field>
-      </ng-container>
+      }
       <mat-form-field class="account-number">
         <mat-label>
           {{ accountCadLabel }}
@@ -71,9 +71,9 @@
           name="account"
           required>
       </mat-form-field>
-    </ng-container>
-    <ng-container *ngSwitchCase="'USD'">
-      <ng-container *ngIf="!readonly">
+    }
+    @case ('USD') {
+      @if (!readonly) {
         <mat-form-field class="branch-number">
           <mat-label>
             {{ branchUsdLabel }}
@@ -86,7 +86,7 @@
             name="branch"
             required>
         </mat-form-field>
-      </ng-container>
+      }
       <mat-form-field class="account-number">
         <mat-label>
           {{ accountUsdLabel }}
@@ -100,25 +100,28 @@
           name="account"
           required>
       </mat-form-field>
-    </ng-container>
-  </ng-container>
-  <mat-form-field *ngIf="showAccountType && accountTypes?.length">
-    <mat-label>
-      {{ accountTypeLabel }}
-    </mat-label>
-    <mat-select
+    }
+  }
+  @if (showAccountType && accountTypes?.length) {
+    <mat-form-field>
+      <mat-label>
+        {{ accountTypeLabel }}
+      </mat-label>
+      <mat-select
         [(ngModel)]="_bankAccount.accountType"
         [disabled]="readonly"
         (ngModelChange)="valueChanged()"
         name="account-type"
         required>
-      <mat-option
-          *ngFor="let type of accountTypes"
-          [value]="type.value">
-        {{ type.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+        @for (type of accountTypes; track type) {
+          <mat-option
+            [value]="type.value">
+            {{ type.name }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
   <ng-container>
     <fs-address
       [(address)]="_bankAccount.address"

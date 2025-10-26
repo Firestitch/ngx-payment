@@ -4,7 +4,7 @@
           readonly: creditCardConfig.name.readonly, 
           'has-hint': creditCardConfig.name.hint
         }"
-      [appearance]="creditCardConfig.appearance">
+    [appearance]="creditCardConfig.appearance">
     <mat-label>
       Name on Card
     </mat-label>
@@ -15,12 +15,14 @@
       (keyup)="_changed()"
       [(ngModel)]="creditCard.name"
       [disabled]="creditCardConfig.name.readonly">
-    <mat-hint *ngIf="creditCardConfig.name.hint">
-      {{ creditCardConfig.name.hint }}
-    </mat-hint>
+    @if (creditCardConfig.name.hint) {
+      <mat-hint>
+        {{ creditCardConfig.name.hint }}
+      </mat-hint>
+    }
   </mat-form-field>
   <mat-form-field
-      [appearance]="creditCardConfig.appearance"
+    [appearance]="creditCardConfig.appearance"
       [ngClass]="{ 
           readonly: creditCardConfig.number.readonly, 
           'has-hint': creditCardConfig.number.hint
@@ -36,23 +38,27 @@
       name="cardNumber"
       [(ngModel)]="cardNumber"
       [disabled]="creditCardConfig.number.readonly">
-    <mat-hint *ngIf="creditCardConfig.number.hint">
-      {{ creditCardConfig.number.hint }}
-    </mat-hint>
-    <div
+    @if (creditCardConfig.number.hint) {
+      <mat-hint>
+        {{ creditCardConfig.number.hint }}
+      </mat-hint>
+    }
+    @if (creditCard.type) {
+      <div
         matSuffix
-        *ngIf="creditCard.type">
-      <img
-        class="logo"
-        [src]="cardImages[creditCard.type]"
-        [alt]="creditCard.type">
-    </div>
+        >
+        <img
+          class="logo"
+          [src]="cardImages[creditCard.type]"
+          [alt]="creditCard.type">
+      </div>
+    }
   </mat-form-field>
   <div class="row">
-    <ng-container *ngIf="creditCardConfig.expiry.readonly">
+    @if (creditCardConfig.expiry.readonly) {
       <mat-form-field
-          [appearance]="creditCardConfig.appearance"
-          class="expiry-readonly readonly">
+        [appearance]="creditCardConfig.appearance"
+        class="expiry-readonly readonly">
         <mat-label>
           Expiry
         </mat-label>
@@ -62,12 +68,12 @@
           name="month"
           [disabled]="true">
       </mat-form-field>
-    </ng-container>
-    <ng-container *ngIf="!creditCardConfig.expiry.readonly">
+    }
+    @if (!creditCardConfig.expiry.readonly) {
       <mat-form-field
-          [appearance]="creditCardConfig.appearance"
-          class="expiry-date expiry-readonly readonly"
-          [ngClass]="{ empty: !expiry }">
+        [appearance]="creditCardConfig.appearance"
+        class="expiry-date expiry-readonly readonly"
+        [ngClass]="{ empty: !expiry }">
         <mat-label>
           Expiry Date
         </mat-label>
@@ -86,11 +92,11 @@
           (blur)="expiryBlur()"
           name="expiry">
       </mat-form-field>
-    </ng-container>
+    }
     <mat-form-field
-        [appearance]="creditCardConfig.appearance"
-        class="cvv"
-        [ngClass]="{ readonly: creditCardConfig.cvv.readonly }">
+      [appearance]="creditCardConfig.appearance"
+      class="cvv"
+      [ngClass]="{ readonly: creditCardConfig.cvv.readonly }">
       <mat-label>
         {{ verificationCode }}
       </mat-label>
@@ -104,12 +110,12 @@
         (keyup)="_changed()">
     </mat-form-field>
   </div>
-  <ng-container *ngIf="creditCardConfig.showAddress !== false">
+  @if (creditCardConfig.showAddress !== false) {
     <fs-address
       [(address)]="address"
       [config]="addressConfig"
       [excludeCountries]="excludeCountries"
       (addressChange)="_changed()">
     </fs-address>
-  </ng-container>
+  }
 </div>

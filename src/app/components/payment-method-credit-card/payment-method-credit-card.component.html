@@ -10,11 +10,12 @@
       </span>
       {{ formattedNumber }}
     </div>
-    <div
+    @if (expiryDate) {
+      <div
         class="expiry small"
-        *ngIf="expiryDate"
         [ngClass]="{ expired: expired }">
-      {{ expired ? 'Expired' : 'Expires' }}       {{ expiryDate | fsDateFormat: 'MM\'/\'yy' }}
-    </div>
+        {{ expired ? 'Expired' : 'Expires' }}       {{ expiryDate | fsDateFormat: 'MM\'/\'yy' }}
+      </div>
+    }
   </div>
 </div>
