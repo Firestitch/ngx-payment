@@ -11,11 +11,11 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { AbstractControl, ControlContainer, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, ControlContainer, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm, ValidationErrors, Validator, FormsModule } from '@angular/forms';
 
 
 import { IFsAddressConfig } from '@firestitch/address';
-import { FsFormDirective } from '@firestitch/form';
+import { FsFormDirective, FsFormModule } from '@firestitch/form';
 
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -26,26 +26,35 @@ import {
   PaymentMethodCreditCard,
 } from '../../interfaces';
 import { FsPaymentStripe } from '../../services';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
 
 @Component({
-  selector: 'fs-stripe-credit-card',
-  templateUrl: './stripe-credit-card.component.html',
-  styleUrls: ['./stripe-credit-card.component.scss'],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  changeDetection: ChangeDetectionStrategy.OnPush,  
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: FsStripeCreditCardComponent,
-      multi: true,
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: FsStripeCreditCardComponent,
-      multi: true,
-    },
-  ],
+    selector: 'fs-stripe-credit-card',
+    templateUrl: './stripe-credit-card.component.html',
+    styleUrls: ['./stripe-credit-card.component.scss'],
+    viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: FsStripeCreditCardComponent,
+            multi: true,
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: FsStripeCreditCardComponent,
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [
+        MatFormField,
+        MatInput,
+        FormsModule,
+        FsFormModule,
+    ],
 })
 export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
 

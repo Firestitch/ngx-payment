@@ -10,10 +10,10 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ControlContainer, NgForm } from '@angular/forms';
+import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 
-import { FsAddress, IFsAddressConfig } from '@firestitch/address';
-import { FsMaskDirective } from '@firestitch/mask';
+import { FsAddress, IFsAddressConfig, FsAddressModule } from '@firestitch/address';
+import { FsMaskDirective, FsMaskModule } from '@firestitch/mask';
 
 import IMask from 'imask';
 import { pick } from 'lodash-es';
@@ -25,14 +25,31 @@ import { isCreditCardExpired } from '../../helpers/credit-card-expired';
 import {
   CreditCard, CreditCardConfig, PaymentMethodCreditCard,
 } from '../../interfaces/credit-card.interface';
+import { MatFormField, MatLabel, MatHint, MatSuffix } from '@angular/material/form-field';
+import { NgClass } from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { FsFormModule } from '@firestitch/form';
 
 
 @Component({
-  selector: 'fs-credit-card',
-  templateUrl: './credit-card.component.html',
-  styleUrls: ['./credit-card.component.scss'],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-credit-card',
+    templateUrl: './credit-card.component.html',
+    styleUrls: ['./credit-card.component.scss'],
+    viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        MatFormField,
+        NgClass,
+        MatLabel,
+        MatInput,
+        FormsModule,
+        FsFormModule,
+        MatHint,
+        MatSuffix,
+        FsMaskModule,
+        FsAddressModule,
+    ],
 })
 export class FsCreditCardComponent implements OnInit, OnChanges {
 

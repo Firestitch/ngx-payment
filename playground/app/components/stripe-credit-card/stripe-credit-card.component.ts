@@ -6,13 +6,28 @@ import { FsMessage } from '@firestitch/message';
 import { CreditCardConfig, FsStripeCreditCardComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
 
 import { tap } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { FsFormModule } from '@firestitch/form';
+import { FsStripeCreditCardComponent as FsStripeCreditCardComponent_1 } from '../../../../src/app/components/stripe-credit-card/stripe-credit-card.component';
+import { MatButton } from '@angular/material/button';
+import { FsStripeExpressCheckoutElementComponent } from '../../../../src/app/components/stripe-express-checkout-element/stripe-express-checkout-element.component';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'app-stripe-credit-card',
-  templateUrl: './stripe-credit-card.component.html',
-  styleUrls: ['./stripe-credit-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-stripe-credit-card',
+    templateUrl: './stripe-credit-card.component.html',
+    styleUrls: ['./stripe-credit-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FormsModule,
+        FsFormModule,
+        FsStripeCreditCardComponent_1,
+        MatButton,
+        FsStripeExpressCheckoutElementComponent,
+        JsonPipe,
+    ],
 })
 export class StripeCreditCardComponent {
 

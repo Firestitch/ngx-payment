@@ -13,14 +13,18 @@ import { endOfMonth, isAfter } from 'date-fns';
 import { CARD_TYPE_IMAGES } from '../../consts/card-type-images.const';
 import { CreditCardType } from '../../enums/credit-card-type.enum';
 import { creditCardNumber } from '../../helpers/credit-card-number';
+import { NgClass } from '@angular/common';
+import { FsDateModule } from '@firestitch/date';
 
 
 @Component({
-  selector: 'fs-payment-method-credit-card',
-  styleUrls: ['./payment-method-credit-card.component.scss'],
-  templateUrl: './payment-method-credit-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { 'class': 'fs-payment-method' },
+    selector: 'fs-payment-method-credit-card',
+    styleUrls: ['./payment-method-credit-card.component.scss'],
+    templateUrl: './payment-method-credit-card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { 'class': 'fs-payment-method' },
+    standalone: true,
+    imports: [NgClass, FsDateModule],
 })
 export class PaymentMethodCreditCardComponent implements OnChanges {
 

@@ -5,12 +5,23 @@ import { FsMessage } from '@firestitch/message';
 import { CreditCard, CreditCardConfig, FsSquareCreditCardComponent, PaymentMethodCreditCard, Provider } from '@firestitch/package';
 
 import { tap } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { FsFormModule } from '@firestitch/form';
+import { FsSquareCreditCardComponent as FsSquareCreditCardComponent_1 } from '../../../../src/app/components/square-credit-card/square-credit-card.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'app-square-credit-card',
-  templateUrl: './square-credit-card.component.html',
-  styleUrls: ['./square-credit-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-square-credit-card',
+    templateUrl: './square-credit-card.component.html',
+    styleUrls: ['./square-credit-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FormsModule,
+        FsFormModule,
+        FsSquareCreditCardComponent_1,
+        MatButton,
+    ],
 })
 export class SquareCreditCardComponent {
 

@@ -19,13 +19,16 @@ import {
   PaymentMethodCreditCard,
 } from '../../interfaces';
 import { FsPaymentStripe } from '../../services/payment-stripe.service';
+import { NgClass } from '@angular/common';
 
 
 @Component({
-  selector: 'fs-stripe-express-checkout-element',
-  templateUrl: './stripe-express-checkout-element.component.html',
-  styleUrls: ['./stripe-express-checkout-element.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,  
+    selector: 'fs-stripe-express-checkout-element',
+    templateUrl: './stripe-express-checkout-element.component.html',
+    styleUrls: ['./stripe-express-checkout-element.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgClass],
 })
 export class FsStripeExpressCheckoutElementComponent implements OnInit {
 

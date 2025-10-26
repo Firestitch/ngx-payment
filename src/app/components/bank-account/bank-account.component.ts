@@ -9,21 +9,40 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ControlContainer, NgForm } from '@angular/forms';
+import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 
-import { IFsAddressConfig } from '@firestitch/address';
+import { IFsAddressConfig, FsAddressModule } from '@firestitch/address';
 
 import IMask from 'imask';
 
 
 import { PaymentMethodBankAccount } from '../../interfaces/bank-account.interface';
+import { FsLabelModule } from '@firestitch/label';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { FsFormModule } from '@firestitch/form';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 
 @Component({
-  selector: 'fs-bank-account',
-  templateUrl: './bank-account.component.html',
-  styleUrls: ['./bank-account.component.scss'],
-  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+    selector: 'fs-bank-account',
+    templateUrl: './bank-account.component.html',
+    styleUrls: ['./bank-account.component.scss'],
+    viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
+    standalone: true,
+    imports: [
+        FsLabelModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        FormsModule,
+        FsFormModule,
+        MatHint,
+        MatSelect,
+        MatOption,
+        FsAddressModule,
+    ],
 })
 export class FsBankAccountComponent implements AfterViewInit, OnChanges {
 

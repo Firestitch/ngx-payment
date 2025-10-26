@@ -24,40 +24,36 @@ import {
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-
-    FsAddressModule,
-    FsFormModule,
-    FsLabelModule,
-    FsDatePickerModule,
-    FsDateModule,
-    FsMaskModule,
-    FsSquareCreditCardComponent,
-  ],
-  exports: [
-    FsCreditCardComponent,
-    FsBankAccountComponent,
-    PaymentMethodBankComponent,
-    PaymentMethodCreditCardComponent,
-    FsStripeCreditCardComponent,
-    FsSquareCreditCardComponent,
-    FsStripeExpressCheckoutElementComponent,
-  ],
-  declarations: [
-    FsCreditCardComponent,
-    FsBankAccountComponent,
-    PaymentMethodBankComponent,
-    PaymentMethodCreditCardComponent,
-    FsStripeCreditCardComponent,
-    FsStripeExpressCheckoutElementComponent,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatIconModule,
+        FsAddressModule,
+        FsFormModule,
+        FsLabelModule,
+        FsDatePickerModule,
+        FsDateModule,
+        FsMaskModule,
+        FsSquareCreditCardComponent,
+        FsCreditCardComponent,
+        FsBankAccountComponent,
+        PaymentMethodBankComponent,
+        PaymentMethodCreditCardComponent,
+        FsStripeCreditCardComponent,
+        FsStripeExpressCheckoutElementComponent,
+    ],
+    exports: [
+        FsCreditCardComponent,
+        FsBankAccountComponent,
+        PaymentMethodBankComponent,
+        PaymentMethodCreditCardComponent,
+        FsStripeCreditCardComponent,
+        FsSquareCreditCardComponent,
+        FsStripeExpressCheckoutElementComponent,
+    ],
 })
 export class FsPaymentModule {
   public static forRoot(): ModuleWithProviders<FsPaymentModule> {
