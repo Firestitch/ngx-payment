@@ -144,7 +144,10 @@ export class FsBankAccountComponent implements AfterViewInit, OnChanges {
         const length = String(this._bankAccount.branch).length;
 
         if (length !== targetLength) {
-          return reject('Invalid branch number');
+          const message = this.currency === 'CAD'
+            ? 'Invalid branch number'
+            : 'Invalid routing number';
+          return reject(message);
         }
 
         resolve(null);

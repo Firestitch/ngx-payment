@@ -12,7 +12,11 @@
   <fs-label>
     How to find your&nbsp;
     <span class="branch-number">
-      Branch
+      @if (currency === 'CAD') {
+        Branch
+      } @else {
+        Routing
+      }
     </span>
     @if (currency === 'CAD') {
       ,&nbsp;
