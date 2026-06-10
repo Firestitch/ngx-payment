@@ -1,4 +1,8 @@
 export function bankAccountNumber(bankAccountNumber: string | number, showAsterisk = true) {
+  if (bankAccountNumber === null || bankAccountNumber === undefined) {
+    return '';
+  }
+
   bankAccountNumber = bankAccountNumber.toString();
 
   if (!bankAccountNumber) {

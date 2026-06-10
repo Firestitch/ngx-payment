@@ -1,4 +1,8 @@
 export function creditCardNumber(cardNumber: string | number, showAsterisk = true): string {
+  if (cardNumber === null || cardNumber === undefined) {
+    return '';
+  }
+
   cardNumber = cardNumber.toString();
 
   if (cardNumber.length < 4) {
