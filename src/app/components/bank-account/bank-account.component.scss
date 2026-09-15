@@ -43,5 +43,8 @@ fs-label {
 }
 
 .address-info {
-  color: #757575;
+  // Secondary copy takes the shared contract, not a fixed grey - see the note on
+  // .expiry in payment-method-credit-card. A grey picked for a white page is
+  // invisible on a dark surface; --fs-color-text-muted carries both schemes.
+  color: var(--fs-color-text-muted, light-dark(rgba(0, 0, 0, 0.54), #97A5A6));
 }

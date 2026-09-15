@@ -19,7 +19,14 @@
   .expiry {
     line-height: normal;
     font-size: small;
-    color: rgba(0,0,0,.54);
+    // THE SHARED CONTRACT, NOT A HARDCODED INK - Ray 2026-09-14. This was
+    // rgba(0, 0, 0, .54), a grey chosen for a white page: on a dark surface it
+    // is black-on-black and the expiry date reads as missing. --fs-color-text-muted
+    // is @firestitch/style's name for secondary copy and carries its own
+    // light-dark() pair, so both schemes follow with no media query and no class.
+    // The fallback restates the package's default, so this still renders
+    // correctly where @firestitch/style is not installed.
+    color: var(--fs-color-text-muted, light-dark(rgba(0, 0, 0, 0.54), #97A5A6));
     margin-top: 2px;
 
     &.expired {
