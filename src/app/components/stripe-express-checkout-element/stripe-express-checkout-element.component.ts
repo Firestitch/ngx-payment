@@ -14,8 +14,8 @@ import {
 import { from, Observable, of, throwError } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { FS_PAYMENT_CONFIG } from '../../injectors';
 import {
+  FsPaymentStripeSetupIntent,
   PaymentMethodCreditCard,
 } from '../../interfaces';
 import { FsPaymentStripe } from '../../services/payment-stripe.service';
@@ -39,7 +39,7 @@ export class FsStripeExpressCheckoutElementComponent implements OnInit {
 
   @Input() public googlePayConfig: { buttonType?: string };
   
-  @Input() public setupIntents: () => Observable<{ clientSecret: string }>;
+  @Input() public setupIntents: () => Observable<FsPaymentStripeSetupIntent>;
 
   @Input() public disabled = false;
 
@@ -55,7 +55,6 @@ export class FsStripeExpressCheckoutElementComponent implements OnInit {
 
   public paymentMethodCreditCard: PaymentMethodCreditCard = {};
 
-  private _paymentConfig = inject(FS_PAYMENT_CONFIG);
   private _stripeService = inject(FsPaymentStripe);
 
   public ngOnInit() {
@@ -127,13 +126,8 @@ export class FsStripeExpressCheckoutElementComponent implements OnInit {
   }
 
   private _initProvider(): void {
-    this._stripeService.init()
+    this._stripeService.initSetupIntent(this.setupIntents)
       .pipe(
-        switchMap(() => {
-          return this.setupIntents ? 
-            this.setupIntents() : 
-            this._paymentConfig?.stripe?.setupIntents();
-        }),  
         tap(({ clientSecret }) => {
           this._initExpressCheckout(clientSecret);
         }),

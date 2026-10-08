@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+.bank-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid var(--mat-sys-outline-variant, #d1d5db);
+  border-radius: 4px;
+  background: var(--fs-color-surface, #ffffff);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.bank-connect {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+}
+
+// The text takes the slack, pushing the chevron or Change to the far edge.
+.bank-text {
+  flex: 1;
+}
+
+.bank-title {
+  font-weight: 500;
+}
+
+.bank-subtitle {
+  font-size: 90%;
+  color: var(--fs-color-text-muted, rgba(0, 0, 0, 0.54));
+}
+
+.bank-change {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.bank-error {
+  margin-top: 5px;
+  color: var(--mat-sys-error, #dc2626);
+}

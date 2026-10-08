@@ -17,12 +17,12 @@ import { AbstractControl, ControlContainer, ControlValueAccessor, NG_VALIDATORS,
 import { IFsAddressConfig } from '@firestitch/address';
 import { FsFormDirective, FsFormModule } from '@firestitch/form';
 
-import { from, Observable } from 'rxjs';
+import { from, Observable, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { FS_PAYMENT_CONFIG } from '../../injectors';
 import {
   CreditCardConfig,
+  FsPaymentStripeSetupIntent,
   PaymentMethodCreditCard,
 } from '../../interfaces';
 import { FsPaymentStripe } from '../../services';
@@ -66,7 +66,7 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
 
   @Input() public config: CreditCardConfig = {};
   
-  @Input() public setupIntents: () => Observable<{ clientSecret: string }>;
+  @Input() public setupIntents: () => Observable<FsPaymentStripeSetupIntent>;
 
   @Input()
   public addressConfig: IFsAddressConfig = {
@@ -88,8 +88,8 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
 
   private _stripe;//: stripe.Stripe;
   private _card;//: stripe.elements.Element;
+  private _clientSecret: string;
   private _form = inject(FsFormDirective);
-  private _paymentConfig = inject(FS_PAYMENT_CONFIG);
   private _cdRef = inject(ChangeDetectorRef);
   private _onChange: any;
   private _onTouched: any;  
@@ -183,6 +183,45 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
       );
   }
 
+  /**
+   * Confirms the card against the component's SetupIntent and returns its payment method id
+   * (pm_...) as the token, for backends that save cards as Stripe PaymentMethods. `createCard()`
+   * is the Sources equivalent (src_...).
+   *
+   * A decline errors the Observable with Stripe's own message, which is also shown under the
+   * field so the person can correct the card and try again.
+   */
+  public confirmSetup(): Observable<PaymentMethodCreditCard> {
+    if (!this._card || !this._clientSecret) {
+      return throwError(() => new Error('The card field has not finished loading'));
+    }
+
+    return from(this._stripe
+      .confirmCardSetup(this._clientSecret, {
+        payment_method: { card: this._card },
+      }))
+      .pipe(
+        switchMap(({ error, setupIntent }: any) => {
+          if (error) {
+            this.cardErrors = error.message;
+            this._form.validate();
+            this._cdRef.markForCheck();
+
+            return throwError(() => new Error(error.message));
+          }
+
+          this.paymentMethodCreditCard = {
+            ...this.paymentMethodCreditCard,
+            token: setupIntent.payment_method,
+          };
+
+          this._onChange?.(this.paymentMethodCreditCard);
+
+          return of(this.paymentMethodCreditCard);
+        }),
+      );
+  }
+
   private _initStripe(clientSecret): void {
     this._initCreditCard(clientSecret);
   }
@@ -194,7 +233,8 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
       .map((f) => f.replace(/["']/g, ''))
       .find(() => true);
 
-    this._stripe = (window as any).Stripe(this._paymentConfig?.stripe?.publishableKey);
+    // The instance FsPaymentStripe created, so the key can come from the setup intent.
+    this._stripe = this._stripeService.stripe;
 
     const cssUrl = new URL(`https://fonts.googleapis.com/css2?family=${fontFamily}&display=swap`);
     const elements = this._stripe.elements({ 
@@ -238,15 +278,9 @@ export class FsStripeCreditCardComponent implements OnInit, OnChanges, ControlVa
   }
 
   private _initProvider(): void {
-    this._stripeService.init()
-      .pipe(
-        switchMap(() => {
-          return this.setupIntents ? 
-            this.setupIntents() : 
-            this._paymentConfig?.stripe?.setupIntents();
-        }),        
-      )
+    this._stripeService.initSetupIntent(this.setupIntents)
       .subscribe(({ clientSecret }) => {
+        this._clientSecret = clientSecret;
         this.initailized = true;
         this._cdRef.markForCheck();
 

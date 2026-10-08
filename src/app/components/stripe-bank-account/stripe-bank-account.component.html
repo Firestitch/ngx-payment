@@ -1,0 +1,36 @@
+@if (bankAccount()) {
+  <div class="bank-row">
+    <mat-icon>account_balance</mat-icon>
+    <div class="bank-text">
+      <div class="bank-title">{{ label() }}</div>
+      <div class="bank-subtitle">Verified with your bank &middot; secured by Stripe</div>
+    </div>
+    <button
+        type="button"
+        class="bank-change"
+        (click)="disconnect()">
+      Change
+    </button>
+  </div>
+} @else {
+  <button
+      type="button"
+      class="bank-row bank-connect"
+      [disabled]="!canConnect()"
+      (click)="connect()">
+    <mat-icon>account_balance</mat-icon>
+    <div class="bank-text">
+      <div class="bank-title">Connect your bank instantly</div>
+      <div class="bank-subtitle">Log in to your bank to verify in seconds &middot; secured by Stripe</div>
+    </div>
+    @if (connecting()) {
+      <mat-spinner [diameter]="20"></mat-spinner>
+    } @else {
+      <mat-icon>chevron_right</mat-icon>
+    }
+  </button>
+}
+
+@if (error()) {
+  <div class="bank-error">{{ error() }}</div>
+}

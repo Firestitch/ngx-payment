@@ -17,6 +17,7 @@ import { FsMaskModule } from '@firestitch/mask';
 import {
   FsBankAccountComponent, FsCreditCardComponent,
   FsSquareCreditCardComponent,
+  FsStripeBankAccountComponent,
   FsStripeCreditCardComponent,
   FsStripeExpressCheckoutElementComponent,
   PaymentMethodBankComponent, PaymentMethodCreditCardComponent,
@@ -44,6 +45,7 @@ import {
         PaymentMethodCreditCardComponent,
         FsStripeCreditCardComponent,
         FsStripeExpressCheckoutElementComponent,
+        FsStripeBankAccountComponent,
     ],
     exports: [
         FsCreditCardComponent,
@@ -53,6 +55,7 @@ import {
         FsStripeCreditCardComponent,
         FsSquareCreditCardComponent,
         FsStripeExpressCheckoutElementComponent,
+        FsStripeBankAccountComponent,
     ],
 })
 export class FsPaymentModule {
